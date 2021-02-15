@@ -27,6 +27,8 @@
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.16",
     "statuses": "^2.0.1",
-    "validator": "^13.5.2"
+    "swagger-ui-express": "^4.1.6",
+    "validator": "^13.5.2",
+    "yamljs": "^0.3.0"
   }
 }

@@ -1,0 +1,72 @@
+---
+swagger: "2.0"
+info:
+  title: Nebulae - Assets
+  version: 1.0.0
+  description: 'Assets service to manage all '
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /api/assets/br/stocks:
+    get:
+      responses:
+        "200":
+          description: Returns an array of `Stock` entities.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Stock'
+      summary: List All Stocks
+      description: Gets a list of all `Stock` entities from the Brazil Stock Exchange.
+    post:
+      parameters:
+      - name: body
+        description: '`Stock` entity to be created.'
+        schema:
+          $ref: '#/definitions/Stock'
+        in: body
+        required: true
+      responses:
+        "201":
+          description: '`Stock` entity created.'
+          schema:
+            $ref: '#/definitions/Stock'
+      summary: Create a Stock
+      description: Creates a Stock in the Brazil Stock Exchange.
+  /api/assets/br/stocks/{ticker}:
+    get:
+      responses:
+        "200":
+          description: Returns a single `Stock` entity.
+          schema:
+            $ref: '#/definitions/Stock'
+      summary: Get a Stock
+      description: Gets the details of a single instance of a `Stock` from the Brazil
+        Stock Exchange.
+    put:
+      parameters:
+      - name: body
+        description: '`Stock` entity to be updated.'
+        schema:
+          $ref: '#/definitions/Stock'
+        in: body
+        required: true
+      responses:
+        "204":
+          description: '`Stock` entity updated.'
+      description: Updates an existing `Stock` from the Brazil Stock Exchange.
+    parameters:
+    - name: ticker
+      description: Ticker symbol to identify the company.
+      in: path
+      required: true
+      type: string
+definitions:
+  Stock:
+    description: ""
+    type: object
