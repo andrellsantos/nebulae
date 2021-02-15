@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
-
-const Stock = mongoose.model('Stock', {
+const Schema = mongoose.Schema;
+const stockSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -38,4 +37,4 @@ const Stock = mongoose.model('Stock', {
     }
 })
 
-module.exports = Stock
+module.exports = mongoose.model('Stock', stockSchema)
