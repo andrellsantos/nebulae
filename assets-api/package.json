@@ -1,0 +1,32 @@
+{
+  "name": "assets-api",
+  "version": "1.0.0",
+  "description": "Assets API - Microservice to manage assets",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrellsantos/nebulae.git"
+  },
+  "keywords": [],
+  "author": "andrellsantos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrellsantos/nebulae/issues"
+  },
+  "homepage": "https://github.com/andrellsantos/nebulae#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.11.16",
+    "statuses": "^2.0.1",
+    "validator": "^13.5.2"
+  }
+}
