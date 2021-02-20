@@ -11,11 +11,10 @@ const stock = require('./routes/stock');
 const app = express()
 const port = process.env.PORT || 3001
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
-
 app.use(express.json())
 
 // APIs
+app.use('/api-docs/assets', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
 app.use('/api/assets/br/stocks', stock);
 
 app.listen(port, () => {
