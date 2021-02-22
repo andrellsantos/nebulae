@@ -6,6 +6,6 @@ const controller = require('../controllers/stock');
 router.post('', controller.create);
 router.get('', controller.getAll);
 router.get('/:ticker', controller.getByTicker);
-router.put('/:ticker', controller.update);
+router.patch('/:ticker', controller.update);
 
 module.exports = router;

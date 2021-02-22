@@ -13,7 +13,7 @@ const financialSchema = new Schema({
     currentAssets: {
         type: Number
     },
-    cashEquivalents: {
+    cashAndCashEquivalents: {
         type: Number
     },
     shortTermInvestments: {
