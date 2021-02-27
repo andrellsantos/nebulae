@@ -50,7 +50,10 @@ exports.update = async (req, res) => {
         // TODO: Change to .save() to use middleware
         const financial = await Financial.findOneAndUpdate({
             stock, quarter
-        }, req.body, {new: true, runValidators: true})
+        }, 
+        req.body, {
+            new: true, runValidators: true
+        })
         res.status(status('OK')).send(financial)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 

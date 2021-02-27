@@ -5,7 +5,7 @@ const controller = require('../controllers/stock')
 
 router.post('', controller.create)
 router.get('', controller.getAll)
-router.get('/:symbol', controller.getBySymbol)
-router.patch('/:symbol', controller.update)
+router.get('/:exchangeComissionCode', controller.getByExchangeComissionCode)
+router.patch('/:exchangeComissionCode', controller.update)
 
 module.exports = router

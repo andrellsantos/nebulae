@@ -30,28 +30,29 @@ exports.getAll = async (req, res) => {
     }
 }
 
-exports.getBySymbol = (req, res) => {
-    Stock.find({
-        symbol: req.params.symbol.toUpperCase(), 
-        active: true
-    }, (e, stock) => {
-        if(e) {
-            return res.status(status('Internal Server Error')).send(stock)
-        }
+exports.getByExchangeComissionCode = async (req, res) => {
+    const exchangeComissionCode = req.params.exchangeComissionCode
+    try {
+        const stock = await Stock.find({
+            exchangeComissionCode, 
+            active: true
+        })
         res.status(status('OK')).send(stock)
-    })
+    } catch(e) {
+        res.status(status('Internal Server Error')).send(stock)
+    }
 }
 
 exports.update = async (req, res) => {
-    if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
+    if(req.body.exchangeComissionCode != undefined && req.body.exchangeComissionCode !== req.params.exchangeComissionCode) {
         return res.status(status('Internal Server Error')).send(req.body)
     }
 
-    const symbol = req.params.symbol.toUpperCase()
+    const exchangeComissionCode = req.params.exchangeComissionCode
     try {
         // TODO: Change to .save() to use middleware
         const stock = await Stock.findOneAndUpdate({
-            symbol
+            exchangeComissionCode
         }, 
         req.body, {
             new: true, runValidators: true
