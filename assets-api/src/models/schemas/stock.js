@@ -10,18 +10,23 @@ const stockSchema = new Schema({
         required: true,
         trim: true
     },
-    cnpj: {
+    symbol: {
         type: String,
         required: true,
         trim: true
     },
-    codeCVM: {
+    country: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    registryNumber: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    exchangeComissionCode: {
         type: Number,
-        required: true,
-        trim: true
-    },
-    ticker: {
-        type: String,
         required: true,
         trim: true
     },
@@ -38,9 +43,7 @@ const stockSchema = new Schema({
     active: {
         type: Boolean,
         default: false
-    },
-    financials: [financialSchema],
-    quotes: [quoteSchema]
+    }
 })
 
 module.exports = stockSchema

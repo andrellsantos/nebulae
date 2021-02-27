@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 
-const controller = require('../controllers/stock')
+const controller = require('../controllers/ticker')
 
 router.post('', controller.create)
 router.get('', controller.getAll)
-router.get('/:symbol', controller.getBySymbol)
-router.patch('/:symbol', controller.update)
+router.get('/:ticker', controller.getByTicker)
+router.patch('/:ticker', controller.update)
 
 module.exports = router

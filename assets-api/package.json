@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "immutable": "^4.0.0-rc.12",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.16",
     "statuses": "^2.0.1",

@@ -3,6 +3,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const quoteSchema = new Schema({
+    ticker: {
+        type: String,
+        required: true,
+        ref: 'Ticker'
+    },
     date: {
         type: Date,
         required: true
@@ -20,6 +25,10 @@ const quoteSchema = new Schema({
         required: true
     },
     close: {
+        type: Number,
+        required: true
+    },
+    volume: {
         type: Number,
         required: true
     }

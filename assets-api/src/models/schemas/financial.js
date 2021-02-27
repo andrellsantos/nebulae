@@ -3,8 +3,17 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const financialSchema = new Schema({
-    quarter: {
+    stock: {
+        type: String,
+        required: true,
+        ref: 'Stock'
+    },
+    date: {
         type: Date,
+        required: true
+    },
+    quarter: {
+        type: String,
         required: true
     },
     totalAssets: {
