@@ -14,4 +14,6 @@ stockSchema.virtual('financials', {
     foreignField: 'stock'
 })
 
-module.exports = mongoose.model('Stock', stockSchema)
+const Stock = mongoose.model('Stock', stockSchema)
+
+module.exports = Stock

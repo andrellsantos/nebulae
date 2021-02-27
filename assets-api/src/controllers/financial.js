@@ -54,7 +54,11 @@ exports.update = async (req, res) => {
         req.body, {
             new: true, runValidators: true
         })
-        res.status(status('OK')).send(financial)
+        if(!financial) {
+            res.status(status('Not Found')).send(financial)
+        } else {
+            res.status(status('OK')).send(financial)
+        }
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }

@@ -40,11 +40,11 @@ const stockSchema = new Schema({
     },    
     symbol: {
         type: String,
+        required: true,
         trim: true
     },
     exchangeComissionCode: {
         type: Number,
-        required: true,
         trim: true
     },
     active: {

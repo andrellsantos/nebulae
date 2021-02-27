@@ -10,7 +10,9 @@ financialSchema.index({
 })
 
 financialSchema.plugin(uniqueValidator, {
-    message: 'Not Unique.'
+    message: 'Quarter already exists for stock.'
 })
 
-module.exports = mongoose.model('Financial', financialSchema)
+const Financial = mongoose.model('Financial', financialSchema)
+
+module.exports = Financial
