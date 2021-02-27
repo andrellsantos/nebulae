@@ -5,7 +5,6 @@ const countries = Immutable.List(['BR', 'US'])
 
 exports.create = async (req, res) => {
     const stock = new Stock(req.body)
-    
     try {
         await stock.save()
         res.status(status('Created')).send(stock)
@@ -21,11 +20,11 @@ exports.getAll = async (req, res) => {
     }
 
     try {
-        const stock = await Stock.find({
+        const stocks = await Stock.find({
             country,
             active: true
         })
-        res.status(status('OK')).send(stock)
+        res.status(status('OK')).send(stocks)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
@@ -43,26 +42,22 @@ exports.getBySymbol = (req, res) => {
     })
 }
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
         return res.status(status('Internal Server Error')).send(req.body)
     }
 
-    Stock.findOneAndUpdate({
-        symbol: req.params.symbol.toUpperCase()
-    }, 
-    req.body, 
-    (e, stock) => {
-        if(e) {
-            return res.status(status('Internal Server Error')).send(req.body)
-        }
-        Stock.find({
-            symbol: req.params.symbol.toUpperCase()
-        }, (e, stock) => {
-            if(e) {
-                return res.status(status('Internal Server Error')).send(stock)
-            }
-            res.status(status('OK')).send(stock)
+    const symbol = req.params.symbol.toUpperCase()
+    try {
+        // TODO: Change to .save() to use middleware
+        const stock = await Stock.findOneAndUpdate({
+            symbol
+        }, 
+        req.body, {
+            new: true, runValidators: true
         })
-    })
+        res.status(status('OK')).send(stock)
+    } catch(e) {
+        return res.status(status('Internal Server Error')).send(e)
+    }
 }

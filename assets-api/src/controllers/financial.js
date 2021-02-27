@@ -1,35 +1,57 @@
-const Stock = require('../models/financial')
+const Financial = require('../models/financial')
 const status = require('statuses')
-const Immutable = require('immutable')
-const countries = Immutable.List(['BR', 'US'])
 
 exports.create = async (req, res) => {
+    const financial = new Financial({
+        ...req.body,
+        stock: req.params.symbol.toUpperCase()
+    })
     try {
-        res.status(status('Created')).send('create()')
+        await financial.save()
+        res.status(status('Created')).send(financial)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
 }
 
 exports.getAll = async (req, res) => {
+    // TODO: Add validation for country and symbol
+    const stock = req.params.symbol.toUpperCase()
     try {
-        res.status(status('OK')).send('getAll()')
+        const financials = await Financial.find({
+            stock
+        })
+        res.status(status('OK')).send(financials)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
 }
 
 exports.getByQuarter = async (req, res) => {
+    // TODO: Add validation for country and symbol
+    const stock = req.params.symbol.toUpperCase()
+    const quarter = req.params.quarter.toUpperCase()
     try {
-        res.status(status('OK')).send('getByQuarter()')
+        const financials = await Financial.find({
+            stock,
+            quarter
+        })
+        res.status(status('OK')).send(financials)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
 }
 
 exports.update = async (req, res) => {
+    // TODO: Add validation for fountry and symbol
+    const stock = req.params.symbol.toUpperCase()
+    const quarter = req.params.quarter.toUpperCase()
     try {
-        res.status(status('OK')).send('update()')
+        // TODO: Change to .save() to use middleware
+        const financial = await Financial.findOneAndUpdate({
+            stock, quarter
+        }, req.body, {new: true, runValidators: true})
+        res.status(status('OK')).send(financial)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
