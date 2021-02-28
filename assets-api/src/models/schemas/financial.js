@@ -107,7 +107,7 @@ const financialSchema = new Schema({
         }
     },
     flowCash: {
-        opeatingActivities: {
+        operatingActivities: {
             type: Number
         },
         depreciationAmortization: {
