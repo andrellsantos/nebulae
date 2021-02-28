@@ -21,7 +21,7 @@ exports.getAll = async (req, res) => {
 
 exports.getByDate = async (req, res) => {
     try {
-        res.status(status('OK')).send('getByQuarter()')
+        res.status(status('OK')).send('getByDate()')
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }

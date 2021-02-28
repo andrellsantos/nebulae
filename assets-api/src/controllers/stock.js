@@ -1,9 +1,14 @@
 const Stock = require('../models/stock')
 const status = require('statuses')
-const Immutable = require('immutable')
-const countries = Immutable.List(['BR', 'US'])
+// TODO: Validate router based on the country
+// const Immutable = require('immutable')
+// const countries = Immutable.List(['BR', 'US'])
 
 exports.create = async (req, res) => {
+    if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
+        return res.status(status('Bad Request')).send(req.body)
+    }
+
     const stock = new Stock(req.body)
     try {
         await stock.save()
@@ -15,10 +20,6 @@ exports.create = async (req, res) => {
 
 exports.getAll = async (req, res) => {
     const country = req.params.country.toUpperCase()
-    if(!countries.contains(country)) {
-        return res.status(status('Bad Request')).send()
-    }
-
     try {
         const stocks = await Stock.find({
             country,
@@ -31,33 +32,46 @@ exports.getAll = async (req, res) => {
 }
 
 exports.getBySymbol = async (req, res) => {
+    const country = req.params.country.toUpperCase()
     const symbol = req.params.symbol.toUpperCase()
     try {
-        const stock = await Stock.find({
+        const stock = await Stock.findOne({
+            country,
             symbol, 
             active: true
         })
+        if(stock) {
+            // TODO: Filter by date to avoid returning everything
+            await stock.populate('tickers').execPopulate()
+            await stock.populate('financials').execPopulate()
+        }
         res.status(status('OK')).send(stock)
     } catch(e) {
-        res.status(status('Internal Server Error')).send(stock)
+        res.status(status('Internal Server Error')).send(e)
     }
 }
 
 exports.update = async (req, res) => {
     if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
-        return res.status(status('Internal Server Error')).send(req.body)
+        return res.status(status('Bad Request')).send(req.body)
     }
 
-    const symbol = req.params.symbol
+    const country = req.params.country.toUpperCase()
+    const symbol = req.params.symbol.toUpperCase()
     try {
         // TODO: Change to .save() to use middleware
         const stock = await Stock.findOneAndUpdate({
+            country,
             symbol
         }, 
         req.body, {
             new: true, runValidators: true
         })
-        res.status(status('OK')).send(stock)
+        if(!stock) {
+            res.status(status('Not Found')).send(stock)
+        } else {
+            res.status(status('OK')).send(stock)
+        }
     } catch(e) {
         return res.status(status('Internal Server Error')).send(e)
     }
