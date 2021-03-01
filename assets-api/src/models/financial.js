@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const financialSchema = require('./schemas/financial')
 
+// Unique Fields
 financialSchema.index({
     stock: 1,
     quarter: 1 

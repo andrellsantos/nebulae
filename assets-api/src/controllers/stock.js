@@ -1,8 +1,6 @@
 const Stock = require('../models/stock')
 const status = require('statuses')
 // TODO: Validate router based on the country
-// const Immutable = require('immutable')
-// const countries = Immutable.List(['BR', 'US'])
 
 exports.create = async (req, res) => {
     if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
@@ -41,8 +39,8 @@ exports.getBySymbol = async (req, res) => {
             active: true
         })
         if(stock) {
-            // TODO: Filter by date to avoid returning everything
             await stock.populate('tickers').execPopulate()
+            // TODO: Filter by date to avoid returning everything
             await stock.populate('financials').execPopulate()
         }
         res.status(status('OK')).send(stock)
@@ -68,7 +66,7 @@ exports.update = async (req, res) => {
             new: true, runValidators: true
         })
         if(!stock) {
-            res.status(status('Not Found')).send(stock)
+            res.status(status('Not Found')).send(req.body)
         } else {
             res.status(status('OK')).send(stock)
         }
