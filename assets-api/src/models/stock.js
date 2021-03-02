@@ -28,23 +28,16 @@ stockSchema.plugin(uniqueValidator, {
 })
 
 // Suppressing unnecessary field
-stockSchema.set('toObject', {
+const fieldOptions = {
     virtuals: true, 
     versionKey: false,
     transform: function(doc, ret) {
         delete ret._id
         delete ret.id
     } 
-})
-
-stockSchema.set('toJSON', {
-    virtuals: true, 
-    versionKey: false,
-    transform: function(doc, ret) {
-        delete ret._id
-        delete ret.id
-    } 
-})
+}
+stockSchema.set('toObject', fieldOptions)
+stockSchema.set('toJSON', fieldOptions)
 
 const Stock = mongoose.model('Stock', stockSchema)
 

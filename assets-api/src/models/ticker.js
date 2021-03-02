@@ -22,7 +22,7 @@ tickerSchema.plugin(uniqueValidator, {
 })
 
 // Suppressing unnecessary field
-tickerSchema.set('toObject', {
+const fieldOptions = {
     virtuals: true, 
     versionKey: false,
     transform: function(doc, ret) {
@@ -30,17 +30,9 @@ tickerSchema.set('toObject', {
         delete ret.id
         delete ret.stock
     } 
-})
-
-tickerSchema.set('toJSON', {
-    virtuals: true, 
-    versionKey: false,
-    transform: function(doc, ret) {
-        delete ret._id
-        delete ret.id
-        delete ret.stock
-    } 
-})
+}
+tickerSchema.set('toObject', fieldOptions)
+tickerSchema.set('toJSON', fieldOptions)
 
 const Ticker = mongoose.model('Ticker', tickerSchema)
 

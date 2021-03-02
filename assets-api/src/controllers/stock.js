@@ -43,8 +43,6 @@ exports.getBySymbol = async (req, res) => {
         })
         if(stock) {
             // TODO: Filter by date to avoid returning everything
-            // TODO: Remove unnecessary dields
-            
             //await stock.populate('tickers').execPopulate()
             stock.tickers = await Ticker.find({
                 stock: symbol

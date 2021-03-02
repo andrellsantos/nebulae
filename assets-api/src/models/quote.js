@@ -15,7 +15,7 @@ quoteSchema.plugin(uniqueValidator, {
 })
 
 // Suppressing unnecessary field
-quoteSchema.set('toObject', {
+const fieldOptions = {
     virtuals: true, 
     versionKey: false,
     transform: function(doc, ret) {
@@ -23,17 +23,9 @@ quoteSchema.set('toObject', {
         delete ret.id
         delete ret.stock
     } 
-})
-
-quoteSchema.set('toJSON', {
-    virtuals: true, 
-    versionKey: false,
-    transform: function(doc, ret) {
-        delete ret._id
-        delete ret.id
-        delete ret.stock
-    } 
-})
+}
+quoteSchema.set('toObject', fieldOptions)
+quoteSchema.set('toJSON', fieldOptions)
 
 const Quote = mongoose.model('Quote', quoteSchema)
 

@@ -15,7 +15,7 @@ financialSchema.plugin(uniqueValidator, {
 })
 
 // Suppressing unnecessary fields
-financialSchema.set('toObject', {
+const fieldOptions = {
     virtuals: true, 
     versionKey: false,
     transform: function(doc, ret) {
@@ -23,17 +23,9 @@ financialSchema.set('toObject', {
         delete ret.id
         delete ret.date
     } 
-})
-
-financialSchema.set('toJSON', {
-    virtuals: true, 
-    versionKey: false,
-    transform: function(doc, ret) {
-        delete ret._id
-        delete ret.id
-        delete ret.date
-    } 
-})
+}
+financialSchema.set('toObject', fieldOptions)
+financialSchema.set('toJSON', fieldOptions)
 
 const Financial = mongoose.model('Financial', financialSchema)
 
