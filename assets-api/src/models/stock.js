@@ -27,6 +27,25 @@ stockSchema.plugin(uniqueValidator, {
     message: 'Symbol already exists for country.'
 })
 
+// Suppressing unnecessary field
+stockSchema.set('toObject', {
+    virtuals: true, 
+    versionKey: false,
+    transform: function(doc, ret) {
+        delete ret._id
+        delete ret.id
+    } 
+})
+
+stockSchema.set('toJSON', {
+    virtuals: true, 
+    versionKey: false,
+    transform: function(doc, ret) {
+        delete ret._id
+        delete ret.id
+    } 
+})
+
 const Stock = mongoose.model('Stock', stockSchema)
 
 module.exports = Stock

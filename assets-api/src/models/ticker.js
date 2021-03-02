@@ -21,15 +21,26 @@ tickerSchema.plugin(uniqueValidator, {
     message: 'Ticker already exists for stock.'
 })
 
-// Suppressing the field "stock"
-tickerSchema.methods.toJSON = function () {
-    const ticker = this
-    const tickerObject = ticker.toObject()
+// Suppressing unnecessary field
+tickerSchema.set('toObject', {
+    virtuals: true, 
+    versionKey: false,
+    transform: function(doc, ret) {
+        delete ret._id
+        delete ret.id
+        delete ret.stock
+    } 
+})
 
-    delete tickerObject.stock
-
-    return tickerObject
-}
+tickerSchema.set('toJSON', {
+    virtuals: true, 
+    versionKey: false,
+    transform: function(doc, ret) {
+        delete ret._id
+        delete ret.id
+        delete ret.stock
+    } 
+})
 
 const Ticker = mongoose.model('Ticker', tickerSchema)
 

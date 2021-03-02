@@ -2,15 +2,7 @@ const mongoose = require('mongoose')
 const financialSchema = require('./financial')
 const quoteSchema = require('./quote')
 
-const Schema = mongoose.Schema;
-const options = { 
-    toObject: {
-        virtuals: true
-    },
-    toJSON: { 
-        virtuals: true 
-    } 
-};
+const Schema = mongoose.Schema
 
 const stockSchema = new Schema({
     company: {
@@ -79,6 +71,6 @@ const stockSchema = new Schema({
         type: Boolean,
         default: false
     }
-}, options)
+})
 
 module.exports = stockSchema

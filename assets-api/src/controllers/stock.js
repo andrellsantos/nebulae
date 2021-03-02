@@ -1,9 +1,12 @@
 const Stock = require('../models/stock')
+const Ticker = require('../models/ticker')
+const Quote = require('../models/quote')
+const Financial = require('../models/financial')
 const status = require('statuses')
 // TODO: Validate router based on the country
 
 exports.create = async (req, res) => {
-    if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
+    if(req.body.country != undefined && req.body.country.toUpperCase() !== req.params.country.toUpperCase()) {
         return res.status(status('Bad Request')).send(req.body)
     }
 
@@ -39,9 +42,28 @@ exports.getBySymbol = async (req, res) => {
             active: true
         })
         if(stock) {
-            await stock.populate('tickers').execPopulate()
             // TODO: Filter by date to avoid returning everything
-            await stock.populate('financials').execPopulate()
+            // TODO: Remove unnecessary dields
+            
+            //await stock.populate('tickers').execPopulate()
+            stock.tickers = await Ticker.find({
+                stock: symbol
+            }, {_id: false, id: false, __v: false})
+
+            console.log(stock.tickers)
+
+            stock.tickers.forEach(async function(ticker) {
+                //await ticker.populate('quotes').execPopulate()
+                ticker.quotes = await Quote.find({
+                    ticker: ticker.symbol
+                }, {_id: false, __v: false})
+            })
+            
+            //await stock.populate('financials').execPopulate()
+            const financials = await Financial.find({
+                stock: symbol
+            }, {_id: false, __v: false, date: false})
+            stock.financials = financials
         }
         res.status(status('OK')).send(stock)
     } catch(e) {
@@ -50,12 +72,16 @@ exports.getBySymbol = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== req.params.symbol.toUpperCase()) {
+    const country = req.params.country.toUpperCase()
+    const symbol = req.params.symbol.toUpperCase()
+
+    if(req.body.country != undefined && req.body.country.toUpperCase() !== country) {
+        return res.status(status('Bad Request')).send(req.body)
+    }
+    if(req.body.symbol != undefined && req.body.symbol.toUpperCase() !== symbol) {
         return res.status(status('Bad Request')).send(req.body)
     }
 
-    const country = req.params.country.toUpperCase()
-    const symbol = req.params.symbol.toUpperCase()
     try {
         // TODO: Change to .save() to use middleware
         const stock = await Stock.findOneAndUpdate({
