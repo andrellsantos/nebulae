@@ -6,11 +6,9 @@ const userSchema = require('./schemas/user')
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({_id: user._id.toString()}, 'thisisynewcourse')
-
+    const token = jwt.sign({_id: user._id.toString()}, 'temporarywordtodecodepassword')
     user.tokens = user.tokens.concat({token})
     await user.save()
-
     return token
 }
 
@@ -19,12 +17,12 @@ const fieldOptions = {
     virtuals: true, 
     versionKey: false,
     transform: function(doc, ret) {
-        delete ret._id
+        delete ret.id
         delete ret.password
         delete ret.tokens
     } 
 }
-userSchema.set('toObject', fieldOptions)
+// userSchema.set('toObject', fieldOptions)
 userSchema.set('toJSON', fieldOptions)
 
 userSchema.statics.findByCredentials = async (email, password) => {
