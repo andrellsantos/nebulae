@@ -29,7 +29,6 @@ exports.login = async (req, res) => {
 }
 
 exports.logout = async (req, res) => {
-    console.log(req.user)
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token

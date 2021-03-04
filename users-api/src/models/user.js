@@ -1,8 +1,14 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const validator = require('validator')
 const userSchema = require('./schemas/user')
+
+// Virtual Properties
+userSchema.virtual('transactions', {
+    ref: 'Transaction',
+    localField: '_id',
+    foreignField: 'userId'
+})
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
