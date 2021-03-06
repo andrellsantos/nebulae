@@ -15,6 +15,12 @@ userSchema.virtual('portfolios', {
     foreignField: 'userId'
 })
 
+userSchema.virtual('favorites', {
+    ref: 'Favorite',
+    localField: '_id',
+    foreignField: 'userId'
+})
+
 userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({_id: user._id.toString()}, 'temporarywordtodecodepassword')

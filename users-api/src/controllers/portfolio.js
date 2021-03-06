@@ -40,18 +40,3 @@ exports.update = async (req, res) => {
         res.status(status('Internal Server Error')).send(e)
     }
 }
-
-exports.delete = async (req, res) => {
-    try {
-        const portfolio = await Portfolio.findOneAndDelete({
-            _id: req.params.id,
-            userId: req.user._id
-        })
-        if(!portfolio) {
-            return res.status(status('Not Found')).send()
-        }
-        res.status(status('OK')).send(portfolio)
-    } catch(e) {
-        res.status(status('Internal Server Error')).send(e)
-    }
-}

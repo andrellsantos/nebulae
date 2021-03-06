@@ -9,6 +9,7 @@ const swaggerDocument = YAML.load(path.resolve(__dirname,'./api-docs/swagger.yam
 const user = require('./routers/user')
 const transaction = require('./routers/transaction')
 const portfolio = require('./routers/portfolio')
+const favorite = require('./routers/favorite')
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -20,6 +21,7 @@ app.use('/api-docs/users', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/api/users', user)
 app.use('/api/users/me/transactions', transaction)
 app.use('/api/users/me/portfolios', portfolio)
+app.use('/api/users/me/favorites', favorite)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
