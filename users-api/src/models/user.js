@@ -9,6 +9,11 @@ userSchema.virtual('transactions', {
     localField: '_id',
     foreignField: 'userId'
 })
+userSchema.virtual('portfolios', {
+    ref: 'Portfolio',
+    localField: '_id',
+    foreignField: 'userId'
+})
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this

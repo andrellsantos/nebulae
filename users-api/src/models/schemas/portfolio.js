@@ -3,7 +3,7 @@ const validator = require('validator')
 
 const Schema = mongoose.Schema
 
-const transactionSchema = new Schema({
+const portfolioSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -21,25 +21,22 @@ const transactionSchema = new Schema({
         uppercase: true,
         trim: true
     },
-    date: {
-        type: Date,
-        required: true
+    weight: {
+        type: Number
     },
     price: {
-        type: Number,
-        required: true
-    },
-    excangeRate: {
         type: Number
     },
     amount: {
-        type: Number,
-        required: true
+        type: Number
+    },
+    average: {
+        type: Number
     }
-    // Should we have a field to store the type of the transaction (buy/sell) or
-    // use a negative number in the price and amount when selling?
-
-    // TODO: Calculated Fields
+    // Should we use the price in real time or the colose from last day
+    // or both in case the marked is close?
+}, {
+    timestamps: true
 })
 
-module.exports = transactionSchema
+module.exports = portfolioSchema

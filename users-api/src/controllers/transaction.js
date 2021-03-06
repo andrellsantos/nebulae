@@ -1,5 +1,7 @@
 const Transaction = require('../models/transaction')
+const engine = require('../engines/portfolio')
 const status = require('statuses')
+
 
 exports.create = async (req, res) => {
     const transaction = new Transaction({
@@ -9,6 +11,7 @@ exports.create = async (req, res) => {
 
     try {
         await transaction.save()
+        engine.calculate(req.user)
         res.status(status('Created')).send(transaction)
     } catch(e) {
         res.status(status('Bad Request')).send(e)
@@ -64,6 +67,7 @@ exports.update = async (req, res) => {
 
         fieldsRequestBody.forEach((field) => transaction[field] = req.body[field])
         await transaction.save()
+        engine.calculate(req.user)
         res.status(status('OK')).send(transaction)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e)
@@ -79,6 +83,7 @@ exports.delete = async (req, res) => {
         if(!transaction) {
             return res.status(status('Not Found')).send()
         }
+        engine.calculate(req.user)
         res.status(status('OK')).send(transaction)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e)
