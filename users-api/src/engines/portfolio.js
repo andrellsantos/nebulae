@@ -1,8 +1,14 @@
 const Portfolio = require('../models/portfolio')
 const HashMap = require('hashmap')
 
+
+const debug = (condition, value, ...print) => {
+    if(condition === value) {
+        console.log(value, ...print)
+    }
+}
+
 exports.calculate = async (user) => {
-    console.log('calculate: ' + user)
     await user.populate({
         path: 'transactions'
     }).execPopulate()
@@ -16,22 +22,15 @@ exports.calculate = async (user) => {
                 country: transaction.country,
                 ticker: transaction.ticker,
                 amount: transaction.amount,
-                total: transaction.amount * transaction.price,
+                total: Math.abs(transaction.amount) * transaction.price,
                 average: transaction.price
             }
             portfolios.set(key, portfolio)
         } else {
-            const _amount = portfolio.amount + transaction.amount
-            const _total = portfolio.total + (transaction.amount * transaction.price)
-            const _average = _total/_amount
-            const _portfolio = {
-                country: portfolio.country,
-                ticker: portfolio.ticker,
-                amount: _amount,
-                total: _total,
-                average: _average
-            }
-            portfolios.set(key, _portfolio)
+            portfolio.amount += transaction.amount
+            portfolio.total += (Math.abs(transaction.amount) * transaction.price)
+            portfolio.average = (portfolio.amount == 0) ? 0 : portfolio.total/portfolio.amount
+            portfolios.set(key, portfolio)
         }
     })
 
