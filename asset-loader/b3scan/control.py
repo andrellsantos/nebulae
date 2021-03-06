@@ -19,7 +19,10 @@ def warn(err):
     """prints warn exception/message to stderr"""
     print("Warn: " + str(err), file=sys.stderr)
 
-def debug(err):
+def debug(err, end='\n'):
     """prints debug message"""
     if os.environ.get('DEBUG'):
-        print("Debug: " + str(err), file=sys.stdout)
+        print("Debug: " + str(err), file=sys.stdout, end=end)
+
+#  TODO: print according to debug level
+

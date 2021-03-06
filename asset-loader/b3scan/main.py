@@ -8,71 +8,91 @@ Last Modified: February 24, 2021
 Description: main module
 """
 
+import re
 import sys
 import os
 import getopt
+import requests
 import scanner
 import info
 import control
 import fio
-
-DEFAULTS = [
-    "1", "1.01", "2", "2.01", "2.02", "2.03", "3.01", "3.02", "3.03", "3.04",
-    "3.05", "3.06", "3.07", "3.08", "3.09", "3.10", "3.11", "6.01", "6.02",
-    "6.03",
-]
+import company
+import reports
+import symbol
 
 def strip_args():
     """parse command arguments"""
     try:
-        files = []
-        config = ""
-        out = ""
-        opts, files = getopt.getopt(
-            sys.argv[1:], "c:o:hvi",
-            ["config=", "out=", "help", "info", "version"])
-        control.debug('args - opts: ' + str(opts) + '\tfiles: ' + str(files))
+        object  = False
+        company = False
+        out     = False
+        quarter = False
+        opts, object = getopt.getopt(
+            sys.argv[1:], "c:o:q:hvid",
+            ["company=", "output=", "quarter=", "help", "version", "debug"])
+        control.debug('args - opts: ' + str(opts) + '\tobject: ' + str(object))
         for opt, arg in opts:
             if opt in ('-h', '--help'):
                 info.usage()
                 sys.exit(0)
-            if opt in ('-i', '--info'):
-                info.info()
-                sys.exit(0)
             if opt in ('-v', '--version'):
                 info.version()
                 sys.exit(0)
-            if opt in ('-o', '--out'):
+            if opt in ('-o', '--output'):
                 out = arg
-            if opt in ('-c', '--config'):
-                config = arg
+            if opt in ('-c', '--company'):
+                company = arg
+            if opt in ('-q', '--quarter'):
+                quarter = arg
             if opt in ('-d', '--debug'):
-                os.environ['DEBUG'] = 1
-        if len(files) <= 0:
-            raise Exception("no file provided")
-        return {"files": files, "config": config, "out": out}
+                os.environ['DEBUG'] = "1"
+        if len(object) != 1 or object[0] not in [ "summary", "report" ]:
+            control.error("Invalid arguments provided")
+        return {
+            "object": object[0],
+            "company": company,
+            "out": out,
+            "quarter": quarter
+        }
     except Exception as err:  # pylint: disable=broad-except
         control.error(err)
 
+def _check_url(url):
+    """docstring for _check_url"""
+    try:
+        request = requests.get(url)
+    except requests.exceptions.ConnectionError as err:
+        control.error('URL is not connecting...')
 
 def init():
     """main logic of the program"""
-    codes = DEFAULTS
-    fout = sys.stdout
     args = strip_args()
-    if args['config']:
-        cfile = fio.fopen(args['config'])
-        codes = fio.configure(cfile)
-        cfile.close()
-    if args['out']:
-        fout = fio.fopen(args['out'], mode="w")
     data = {}
-    for file in args['files']:
-        fin = fio.fopen(file, mode="r")
-        scanner.scan(fin, codes, data)
-        fin.close()
-    fio.dump(data, fout)
-    fout.close()
+    if args['object'] == "summary":
+        data = company.load({'company': args["company"]})
+    elif args['object'] == "report":
+        data = reports.load({'quarter': args['quarter'], 'company': args['company']})
+    if args['out']:
+        if re.match('http', args['out']):
+            url = args['out']
+            _check_url(url)
+            if args['object'] == "summary":
+                for entry in data:
+                    fio.post(entry, url)
+            if args['object'] == "report":
+                for entry in data:
+                    sym = symbol.get(entry['registryNumber'])
+                    if sym:
+                        fio.post(entry, url, sym + '/financials')
+                    else:
+                        control.warn("symbol not found for " + entry['registryNumber'])
+        else:
+            file = fio.fopen(args['out'], mode="w")
+            fio.dump(data, file)
+            file.close()
+    else:
+        fio.dump(data, sys.stdout)
 
 
 if __name__ == "__main__":

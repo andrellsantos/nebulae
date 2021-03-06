@@ -1,28 +1,25 @@
 ## B3 scanner
 
-> Script for fetching CVM reports, pulling data and sending over to remote
-> servers.
+> Script for scanning CVM company files and reports
 
-Running the script
+Fetch company details
 ```
     make activate
-    b3scan [OPTIONS] <file>...
+    b3scan summary
 ```
 
-Fetching data
+Fetch report data
 ```
-    make fetch
+    make report
+```
+
+Post data to remote url
+```
+    make -o http://localhost:8080 summary
 ```
 
 For help
 ```
-    make help
     b3scan --help
     b3scan --info
 ```
-
-### TODO
-
-1. Document configuration file
-2. Add option to fetch/cache data from inside the python program
-3. Add option to send data remotely

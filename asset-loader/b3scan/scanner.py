@@ -14,33 +14,23 @@ import re
 import control
 
 
-def scan(file, codes, data):
-    """ ... """
+def read(file, codes):
+    """reads contents from csv file and returns data matching codes"""
     control.debug('scanning ' + file.name)
-    idx = {
-        "CD_CVM": -1,
-        "ORDEM_EXERC": -1,
-        "DT_REFER": -1,
-        "CD_CONTA": -1,
-        "VL_CONTA": -1
-    }
-    try:
-        header = file.readline().split(sep=";")
-        for code in idx:
-            idx[code] = header.index(code)
-        for line in file:
-            fields = line.split(sep=";")
-            cd_cvm = fields[idx['CD_CVM']]
-            dt_refer = fields[idx['DT_REFER']]
-            ordem_exerc = fields[idx['ORDEM_EXERC']]
-            cd_conta = fields[idx['CD_CONTA']]
-            vl_conta = fields[idx['VL_CONTA']]
-            if ordem_exerc == "ÚLTIMO": # ou penúltimo?
-                if cd_conta in codes:
-                    if cd_cvm not in data:
-                        data[cd_cvm] = {}
-                    if cd_conta not in data[cd_cvm]:
-                        data[cd_cvm][cd_conta] = {}
-                    data[cd_cvm][cd_conta][dt_refer] = vl_conta
-    except Exception as e:
-        raise e
+    data = []
+    indexes = {}
+    header = file.readline().split(sep=";")
+    for code in codes:
+        if code in header:
+            indexes[code] = header.index(code)
+        else:
+            return False
+    for line in file:
+        fields = line.split(sep=";")
+        entry = {}
+        for code in codes:
+            if code in header:
+                entry[code] = fields[indexes[code]]
+        data.append(entry)
+    return data
+

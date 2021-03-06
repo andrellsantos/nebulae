@@ -4,7 +4,7 @@
 # Last Modified: February 24, 2021
 
 # Check for executables in path
-EXECUTABLES = python3 virtualenv wget unzip test
+EXECUTABLES = python3 virtualenv test
 
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell which $(exec)),,$(error "No $(exec) in PATH")))
@@ -16,19 +16,18 @@ MAKEFGLAGS     += --print-directory
 .SHELLFLAGS    := -eu -o pipefail -o posix -c
 .DEFAULT_GOAL  := help
 .ONESHELL:
-.PHONY:        all help clean install python
-
-CSV_DIR   := csv
-ZIP_DIR   := zip
-OUT       := data.json
+.PHONY:        all help clean install python summary reports
 
 export PATH := $(PATH):$(PWD)/b3scan
 
+PORT ?= 3002
+URL  := http://localhost:$(PORT)/api/assets/br/stocks
+
 help: ## Prints help for targets with comments
-	@echo "make scan"
-	@echo "	scans files in csv/ and generates output data.json"
-	@echo "make fetch"
-	@echo "	pulls and extracts csv report data files"
+	@echo "make summary"
+	@echo "	get company details and post post to localhost:{PORT:3002}"
+	@echo "make reports"
+	@echo "	get company report data and post to localhost:{PORT:3002}"
 	@echo "make python"
 	@echo "	run python shell from venv"
 	@echo "make activate"
@@ -36,16 +35,15 @@ help: ## Prints help for targets with comments
 	@echo "make install"
 	@echo "	setup venv & install requirements"
 
-scan: install configs.json
-	@echo Running scanner script
+summary: install
+	@echo "Sending company summary"
 	source ./venv/bin/activate
-	b3scan -o $(OUT) -c configs.json $(CSV_DIR)/*
-	@echo File output to data.json
+	b3scan  -d -o $(URL) summary
 
-fetch: resources.sh
-	@echo Pullings csv resources
-	test -x ./resources.sh || chmod +x ./resources.sh
-	./resources.sh
+reports: install
+	@echo "Sending company reports"
+	source ./venv/bin/activate
+	b3scan  -d -o $(URL) report
 
 activate: install
 	@echo Launch new shell with python activated
@@ -62,8 +60,8 @@ install: venv requirements.txt
 	source ./venv/bin/activate
 	pip -q install -r requirements.txt
 
-venv: 
-	@echo Setting up virtual env 
+venv:
+	@echo Setting up virtual env
 	virtualenv venv
 	source ./venv/bin/activate
 	python -m pip install --upgrade pip
