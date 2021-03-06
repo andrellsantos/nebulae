@@ -53,7 +53,19 @@ exports.logoutAll = async (req, res) => {
 }
 
 exports.get = async (req, res) => {
-    res.status(status('OK')).send(req.user)
+    try {
+        await req.user.populate({
+            path: 'portfolios'
+        }).execPopulate()
+        
+        await req.user.populate({
+            path: 'favorites'
+        }).execPopulate()
+
+        res.status(status('OK')).send(req.user)
+    } catch(e) {
+        res.status(status('Internal Server Error')).send(e) 
+    }
 }
 
 exports.update = async (req, res) => {

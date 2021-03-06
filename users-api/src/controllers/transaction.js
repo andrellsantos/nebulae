@@ -23,7 +23,6 @@ exports.getAll = async (req, res) => {
         await req.user.populate({
             path: 'transactions'
         }).execPopulate()
-        engine.calculate(req.user)
         res.status(status('OK')).send(req.user.transactions)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
