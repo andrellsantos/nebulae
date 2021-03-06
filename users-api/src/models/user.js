@@ -9,8 +9,15 @@ userSchema.virtual('transactions', {
     localField: '_id',
     foreignField: 'userId'
 })
+
 userSchema.virtual('portfolios', {
     ref: 'Portfolio',
+    localField: '_id',
+    foreignField: 'userId'
+})
+
+userSchema.virtual('returnRates', {
+    ref: 'ReturnRate',
     localField: '_id',
     foreignField: 'userId'
 })

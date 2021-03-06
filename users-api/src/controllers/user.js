@@ -57,6 +57,10 @@ exports.get = async (req, res) => {
         await req.user.populate({
             path: 'portfolios'
         }).execPopulate()
+
+        await req.user.populate({
+            path: 'returnRates'
+        }).execPopulate()
         
         await req.user.populate({
             path: 'favorites'

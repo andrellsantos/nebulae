@@ -1,7 +1,6 @@
 const Portfolio = require('../models/portfolio')
 const HashMap = require('hashmap')
 
-
 const debug = (condition, value, ...print) => {
     if(condition === value) {
         console.log(value, ...print)

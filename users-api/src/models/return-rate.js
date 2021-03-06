@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const portfolioSchema = require('./schemas/portfolio')
+const returnRateSchema = require('./schemas/return-rate')
 
 // Suppressing unnecessary field
 const fieldOptions = {
@@ -12,9 +12,9 @@ const fieldOptions = {
         delete ret.updatedAt
     } 
 }
-portfolioSchema.set('toObject', fieldOptions)
-portfolioSchema.set('toJSON', fieldOptions)
+returnRateSchema.set('toObject', fieldOptions)
+returnRateSchema.set('toJSON', fieldOptions)
 
-const Portfolio = mongoose.model('Portfolio', portfolioSchema)
+const ReturnRate = mongoose.model('ReturnRate', returnRateSchema)
 
-module.exports = Portfolio
+module.exports = ReturnRate

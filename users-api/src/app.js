@@ -10,6 +10,7 @@ const user = require('./routers/user')
 const transaction = require('./routers/transaction')
 const portfolio = require('./routers/portfolio')
 const favorite = require('./routers/favorite')
+const returnRate = require('./routers/return-rate')
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -21,6 +22,7 @@ app.use('/api-docs/users', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/api/users', user)
 app.use('/api/users/me/transactions', transaction)
 app.use('/api/users/me/portfolios', portfolio)
+app.use('/api/users/me/return-rates', returnRate)
 app.use('/api/users/me/favorites', favorite)
 
 app.listen(port, () => {
