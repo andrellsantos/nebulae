@@ -6,7 +6,7 @@ const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         // TODO: Use environment variables to store the word to decode
-        const decoded = jwt.verify(token, 'temporarywordtodecodepassword')
+        const decoded = jwt.verify(token, 'temporarywordtodecodetoken')
         const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
         
         if(!user) {

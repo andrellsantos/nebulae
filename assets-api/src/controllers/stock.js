@@ -48,8 +48,6 @@ exports.getBySymbol = async (req, res) => {
                 stock: symbol
             }, {_id: false, id: false, __v: false})
 
-            console.log(stock.tickers)
-
             stock.tickers.forEach(async function(ticker) {
                 //await ticker.populate('quotes').execPopulate()
                 ticker.quotes = await Quote.find({

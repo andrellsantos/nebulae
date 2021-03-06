@@ -11,4 +11,8 @@ router.get('/me', auth, controller.get)
 router.patch('/me', auth, controller.update)
 router.delete('/me', auth, controller.delete)
 
+// Routers to authenticate learners from other microservices
+router.get('/user-auth', controller.getUserAuth)
+router.get('/admin-auth', controller.getAdminAuth)
+
 module.exports = router

@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 const status = require('statuses')
 
 exports.create = async (req, res) => {
@@ -70,6 +71,57 @@ exports.get = async (req, res) => {
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
+}
+
+exports.getUserAuth = async (req, res) => {
+    try {
+        const token = req.query.access_key ? req.query.access_key : undefined
+        if(token == undefined) {
+            return res.status(status('Unauthorized')).send('Please authenticate.')
+        }
+        // TODO: Use environment variables to store the word to decode
+        const decoded = jwt.verify(token, 'temporarywordtodecodetoken')
+        const user = await User.findOne({
+            _id: decoded._id,
+            'tokens.token': token
+        })
+        
+        if(!user) {
+            return res.status(status('Unauthorized')).send('Please authenticate.')
+        }
+
+        req.user = user
+        res.status(status('OK')).send(req.user)
+    } catch(e) {
+        console.log(e)
+        res.status(status('Unauthorized')).send('Please authenticate.')
+    }
+}
+
+exports.getAdminAuth = async (req, res) => {
+    try {
+        const token = req.query.access_key ? req.query.access_key : undefined
+        if(token == undefined) {
+            return res.status(status('Unauthorized')).send('Please authenticate.')
+        }
+        // TODO: Use environment variables to store the word to decode
+        const decoded = jwt.verify(token, 'temporarywordtodecodetoken')
+        const user = await User.findOne({
+            _id: decoded._id,
+            admin: true,
+            'tokens.token': token
+        })
+        
+        if(!user) {
+            return res.status(status('Unauthorized')).send('Please authenticate.')
+        }
+
+        req.user = user
+        res.status(status('OK')).send(req.user)
+    } catch(e) {
+        console.log(e)
+        res.status(status('Unauthorized')).send('Please authenticate.')
+    }  
 }
 
 exports.update = async (req, res) => {
