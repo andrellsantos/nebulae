@@ -1,0 +1,214 @@
+---
+swagger: "2.0"
+info:
+  title: Nebulae - Users
+  version: 1.0.0
+  description: 'Assets service to manage all '
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /api/users:
+    post:
+      parameters:
+      - name: body
+        description: '`User` entity to be created.'
+        schema:
+          $ref: '#/definitions/User'
+        in: body
+        required: true
+      responses:
+        "201":
+          description: '`User` entity created.'
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              user:
+                _id: 6045204335afe5a0fb8289fc
+                name: André Santos
+                email: andre@example.com
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDQ1MjA0MzM1YWZlNWEwZmI4Mjg5ZmMiLCJpYXQiOjE2MTUxNDI5Nzl9.ITcyyx3gVEDZupaKul_voX5iEvhPLPNLip0DY7bMahc
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Create an User
+      description: Creates an `User` in the system.
+  /api/users/me:
+    get:
+      responses:
+        "200":
+          description: Returns a single `User` entity.
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              _id: 604294cdc6ef7529c6c5d929
+              name: André Santos
+              email: andre@example.com
+              admin: true
+              portfolios:
+              - _id: 60437bf8a639284ca34c3389
+                country: BR
+                ticker: HGLG11
+                weight: 10
+                amount: 220
+                average: 102.8
+              - _id: 604396b824b358a57540bec3
+                country: BR
+                ticker: XPML11
+                amount: 10
+                average: 10
+                weight: 15
+              returnRates: []
+              favorites:
+              - _id: 60439c0f6d738559cbaa545b
+                country: BR
+                ticker: XPML11
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Gets the User
+      description: Gets the details of the `User` logged in the system.
+    delete:
+      responses:
+        "200":
+          description: '`User` entity deleted.'
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              _id: 6045204335afe5a0fb8289fc
+              name: André Santos
+              email: andre1@example.com
+      summary: Deletes an User
+      description: Deletes the `User` logged in the system.
+    patch:
+      parameters:
+      - name: body
+        description: '`Stock` entity to be updated.'
+        schema:
+          $ref: '#/definitions/User'
+        in: body
+        required: true
+      responses:
+        "200":
+          description: '`User` entity updated.'
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              user:
+                _id: 6045204335afe5a0fb8289fc
+                name: André Santos
+                email: andre@example.com
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDQ1MjA0MzM1YWZlNWEwZmI4Mjg5ZmMiLCJpYXQiOjE2MTUxNDI5Nzl9.ITcyyx3gVEDZupaKul_voX5iEvhPLPNLip0DY7bMahc
+        "404":
+          description: Stock symbol not found.
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Updates an User
+      description: Updates the `User` logged in the system.
+  /api/users/me/transactions:
+    get:
+      responses:
+        "200":
+          description: Returns an array of `Transaction` entities.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+          examples:
+            application/json:
+            - _id: 60429502c6ef7529c6c5d92c
+              country: BR
+              ticker: HGLG11
+              date: 2020-02-12T00:00:00.000Z
+              price: 102.8
+              amount: 10
+            - _id: 604396b8a01fa257cc3ab0ea
+              country: BR
+              ticker: XPML11
+              date: 2020-02-12T00:00:00.000Z
+              price: 10
+              amount: 10
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: List All Transactions for an User.
+      description: Gets a list of all `Transaction` entities for the `User` logged
+        in the system.
+    post:
+      parameters:
+      - name: body
+        description: '`Transaction` entity to be created.'
+        schema:
+          $ref: '#/definitions/Transaction'
+        in: body
+        required: true
+      responses:
+        "201":
+          description: '`Transaction` entity created.'
+          schema:
+            $ref: '#/definitions/Transaction'
+          examples:
+            application/json:
+              country: br
+              ticker: xpml11
+              date: 2020-02-12
+              price: 10
+              amount: 10
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Creates a Transaction for an User
+      description: Creates a `Transaction` for the `User` logged in the system.
+  /api/users/me/login:
+    post:
+      parameters:
+      - name: body
+        description: '`User` entity to be logged in.'
+        schema:
+          $ref: '#/definitions/User'
+        in: body
+        required: true
+      responses:
+        "200":
+          description: '`User` entity logged in.'
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              user:
+                _id: 604294cdc6ef7529c6c5d929
+                name: André Santos
+                email: andre@example.com
+                admin: true
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDQyOTRjZGM2ZWY3NTI5YzZjNWQ5MjkiLCJpYXQiOjE2MTUxNDMxMjV9.Dfl1T7AvkHcw9uOP2T71MRH_FD2FKUJDYNvBxIZNxIU
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Logins an User
+      description: Logins an `User` in the system.
+  /api/users/me/logout:
+    post:
+      responses:
+        "200":
+          description: '`User` entity logged out.'
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Logins an User
+      description: Logouts an `User` in the system.
+definitions:
+  User:
+    description: ""
+    type: object
+    example:
+      name: André Santos
+      email: andre@example.com
+      password: Pass123()()
+  Transaction:
+    description: ""
+    type: object
+  Portfolio:
+    description: ""
+    type: object

@@ -21,6 +21,20 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Stock'
+          examples:
+            application/json:
+            - company:
+                fullName: Ambev S.A.
+                shortName: Ambev
+                registryNumber: 07.526.557/0001-00
+                sector: Bebidas
+                description: "Líder em diversos mercados com marcas como Skol, Brahma, Antarctica, Guaraná Antarctica e Fusion."
+              active: true
+              country: BR
+              symbol: ABEV
+              exchangeComissionCode: 23264
+        "500":
+          description: An internal error ocurrerd while processing the request.
       summary: List All Stocks
       description: Gets a list of all `Stock` entities from the Brazil Stock Exchange.
     post:
@@ -36,19 +50,83 @@ paths:
           description: '`Stock` entity created.'
           schema:
             $ref: '#/definitions/Stock'
+          examples:
+            application/json:
+              active: true
+              company:
+                fullName: Ambev S.A.
+                shortName: Ambev
+                registryNumber: 07.526.557/0001-00
+                sector: Bebidas
+                description: "Líder em diversos mercados com marcas como Skol, Brahma, Antarctica, Guaraná Antarctica e Fusion."
+              country: BR
+              symbol: ABEV
+              exchangeComissionCode: 23264
+        "500":
+          description: An internal error ocurrerd while processing the request.
       summary: Create a Stock
-      description: Creates a Stock in the Brazil Stock Exchange.
-  /api/assets/br/stocks/{ticker}:
+      description: Creates a `Stock` in the Brazil Stock Exchange.
+  /api/assets/br/stocks/{symbol}:
     get:
       responses:
         "200":
           description: Returns a single `Stock` entity.
           schema:
             $ref: '#/definitions/Stock'
+          examples:
+            application/json:
+              company:
+                fullName: Ambev S.A.
+                shortName: Ambev
+                registryNumber: 07.526.557/0001-00
+                sector: Bebidas
+                description: "Líder em diversos mercados com marcas como Skol, Brahma, Antarctica, Guaraná Antarctica e Fusion."
+              active: true
+              country: BR
+              symbol: ABEV
+              exchangeComissionCode: 23264
+              tickers:
+              - symbol: ABEV11
+                quotes: []
+              - symbol: ABEV3
+                quotes:
+                - ticker: ABEV3
+                  date: 2021-03-01T00:00:00.000Z
+                  open: 14.16
+                  low: 13.89
+                  high: 14.28
+                  close: 14.01
+                  volume: 14043200
+                - ticker: ABEV3
+                  date: 2021-03-02T00:00:00.000Z
+                  open: 14.16
+                  low: 13.89
+                  high: 14.28
+                  close: 14.01
+                  volume: 14043200
+              - symbol: ABEV4
+              financials:
+              - assets:
+                  cashAndCashEquivalents: 75.417
+                liabilities:
+                  equity: 250.361
+                income:
+                  revenue: 70.73
+                  ebit: 18.032
+                  financialResult: -22.91
+                  taxes: 3.209
+                  netIncomeDiscontinuedOperations: 0
+                  netIncome: -1.669
+                flowCash:
+                  capex: 5.961
+                quarter: 4T2020
+                stock: ABEV
+        "500":
+          description: An internal error ocurrerd while processing the request.
       summary: Get a Stock
       description: Gets the details of a single instance of a `Stock` from the Brazil
         Stock Exchange.
-    put:
+    patch:
       parameters:
       - name: body
         description: '`Stock` entity to be updated.'
@@ -57,16 +135,133 @@ paths:
         in: body
         required: true
       responses:
-        "204":
-          description: '`Stock` entity updated.'
+        "200":
+          description: '`Stock` entity to be updated.'
+          examples:
+            application/json:
+              company:
+                fullName: Ambev S.A.
+                shortName: Ambev
+                registryNumber: 07.526.557/0001-00
+                sector: Bebidas
+                description: "Líder em diversos mercados com marcas como Skol, Brahma, Antarctica, Guaraná Antarctica e Fusion."
+              active: true
+              country: BR
+              symbol: ABEV
+              exchangeComissionCode: 23264
+        "404":
+          description: Stock symbol not found.
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Updates a Stock
       description: Updates an existing `Stock` from the Brazil Stock Exchange.
     parameters:
+    - name: symbol
+      description: ISIN symbol to identify the company.
+      in: path
+      required: true
+      type: string
+  /api/assets/br/stocks/{symbol}/tickers:
+    get:
+      responses:
+        "200":
+          description: Returns an array of `Ticker` entities.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ticker'
+          examples:
+            application/json:
+            - symbol: ABEV11
+            - symbol: ABEV3
+            - symbol: ABEV4
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: List All Tickers for a Stock
+      description: Gets a list of all `Ticker` entities for a `Stock` from the Brazil
+        Stock Exchange.
+    post:
+      parameters:
+      - name: body
+        description: '`Ticker` entity to be created.'
+        schema:
+          $ref: '#/definitions/Stock'
+        in: body
+        required: true
+      responses:
+        "201":
+          description: '`Ticker` entity created.'
+          schema:
+            $ref: '#/definitions/Ticker'
+          examples:
+            application/json:
+              symbol: ABEV3
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Create a Ticker for a Stock
+      description: Creates a `Ticker` for a `Stock` from the Brazil Stock Exchange.
+    parameters:
+    - name: symbol
+      description: ISIN symbol to identify the company.
+      in: path
+      required: true
+      type: string
+  /api/assets/br/stocks/{symbol}/tickers/{ticker}:
+    get:
+      responses:
+        "200":
+          description: Returns a single `Ticker` entity.
+          schema:
+            $ref: '#/definitions/Ticker'
+          examples:
+            application/json:
+              symbol: ABEV3
+              quotes:
+              - ticker: ABEV3
+                date: 2021-03-01T00:00:00.000Z
+                open: 14.16
+                low: 13.89
+                high: 14.28
+                close: 14.01
+                volume: 14043200
+              - ticker: ABEV3
+                date: 2021-03-02T00:00:00.000Z
+                open: 14.16
+                low: 13.89
+                high: 14.28
+                close: 14.01
+                volume: 14043200
+        "500":
+          description: An internal error ocurrerd while processing the request.
+      summary: Get a Ticker for a Stock
+      description: Gets the details of a single instance of a `Ticker` for a `Stock`
+        from the Brazil Stock Exchange.
+    parameters:
+    - name: symbol
+      description: ISIN symbol to identify the company.
+      in: path
+      required: true
+      type: string
     - name: ticker
-      description: Ticker symbol to identify the company.
+      description: Ticker symbol for a Stock
       in: path
       required: true
       type: string
 definitions:
   Stock:
+    description: ""
+    type: object
+    example:
+      company:
+        fullName: Ambev S.A.
+        shortName: Ambev
+        registryNumber: 07.526.557/0001-00
+        sector: Bebidas
+        description: "Líder em diversos mercados com marcas como Skol, Brahma, Antarctica, Guaraná Antarctica e Fusion."
+      country: BR
+      symbol: ABEV
+      exchangeComissionCode: "23264"
+      active: true
+  Ticker:
     description: ""
     type: object

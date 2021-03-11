@@ -41,26 +41,29 @@ exports.getBySymbol = async (req, res) => {
             symbol, 
             active: true
         })
-        if(stock) {
-            // TODO: Filter by date to avoid returning everything
-            //await stock.populate('tickers').execPopulate()
-            stock.tickers = await Ticker.find({
-                stock: symbol
-            }, {_id: false, id: false, __v: false})
-
-            stock.tickers.forEach(async function(ticker) {
-                //await ticker.populate('quotes').execPopulate()
-                ticker.quotes = await Quote.find({
-                    ticker: ticker.symbol
-                }, {_id: false, __v: false})
-            })
-            
-            //await stock.populate('financials').execPopulate()
-            const financials = await Financial.find({
-                stock: symbol
-            }, {_id: false, __v: false, date: false})
-            stock.financials = financials
+        if(!stock) {
+            return res.status(status('Not Found')).send(req.body)
         }
+        
+        // TODO: Filter by date to avoid returning everything
+        //await stock.populate('tickers').execPopulate()
+        stock.tickers = await Ticker.find({
+            stock: symbol
+        }, {_id: false, id: false, __v: false})
+
+        stock.tickers.forEach(async function(ticker) {
+            //await ticker.populate('quotes').execPopulate()
+            ticker.quotes = await Quote.find({
+                ticker: ticker.symbol
+            }, {_id: false, __v: false})
+        })
+        
+        //await stock.populate('financials').execPopulate()
+        const financials = await Financial.find({
+            stock: symbol
+        }, {_id: false, __v: false, date: false})
+        stock.financials = financials
+        
         res.status(status('OK')).send(stock)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e)
@@ -88,10 +91,9 @@ exports.update = async (req, res) => {
             new: true, runValidators: true
         })
         if(!stock) {
-            res.status(status('Not Found')).send(req.body)
-        } else {
-            res.status(status('OK')).send(stock)
-        }
+            return res.status(status('Not Found')).send(req.body)
+        } 
+        res.status(status('OK')).send(stock)
     } catch(e) {
         return res.status(status('Internal Server Error')).send(e)
     }
