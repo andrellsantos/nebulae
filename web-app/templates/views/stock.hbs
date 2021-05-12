@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NEBULAE</title>
+        <link rel="icon" href="/img/icon.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <div class="main-content">
+            {{>stock}}
+            <table border="0" width="100%">
+                <tr>
+                    <td width="25%" class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">DETALHES</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="1%"></td>
+                    <td width="72%" class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td class="table-td-stock" align="center">COTAÇÃO</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom" align="center"><canvas id="stockQuotes"></canvas></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="3"><br/></td></tr>
+                <tr>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">INDICADORES</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td></td>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">HISTÓRICO DE INDICADORES</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom" align="center"><canvas id="stockValuation"></canvas></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="3"><br/></td></tr>
+                <tr>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">QUALIDADE</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom" >GOVERNANÇA</td>
+                                <td class="table-td-stock-right">5</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom">LUCRATIVIDADE</td>
+                                <td class="table-td-stock-right">5</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom">CRESCIMENTO</td>
+                                <td class="table-td-stock-right">5</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom">ENDIVIDAMENTO</td>
+                                <td class="table-td-stock-right">5</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom">DIVIDENDO</td>
+                                <td class="table-td-stock-right">5</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td></td>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">BALANÇOS</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {{>footer}}
+    </body>
+
+
+    <script>
+        window.onload = function() {
+            var ctx = document.getElementById('stockQuotes').getContext('2d');
+            var stockQuotes = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        '01/03/21',
+                        '02/03/21',
+                        '03/03/21',
+                        '04/03/21',
+                        '05/03/21',
+                        '08/03/21',
+                        '09/03/21',
+                        '10/03/21',
+                        '11/03/21',
+                        '12/03/21',
+                        '15/03/21',
+                        '16/03/21',
+                        '17/03/21',
+                        '18/03/21',
+                        '19/03/21',
+                        '22/03/21',
+                        '23/03/21',
+                        '24/03/21',
+                        '25/03/21',
+                        '26/03/21'
+                    ],
+                    datasets: [{
+                        label: 'BBDC3',
+                        data: [
+                            '19.92',
+                            '20.25',
+                            '20.66',
+                            '21.35',
+                            '22.52',
+                            '21.65',
+                            '21.68',
+                            '22.01',
+                            '22.45',
+                            '22.13',
+                            '22.35',
+                            '21.95',
+                            '22.69',
+                            '23.15',
+                            '23.30',
+                            '23.30',
+                            '22.88',
+                            '22.35',
+                            '23.00',
+                            '23.26'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false,
+                        text: 'BBDC3'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+            var ctx = document.getElementById('stockValuation').getContext('2d');
+            var stockValuation = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        '2011',
+                        '2012',
+                        '2013',
+                        '2014',
+                        '2015',
+                        '2016',
+                        '2017',
+                        '2018',
+                        '2019',
+                        '2020',
+                        'ATUAL'
+                    ],
+                    datasets: [{
+                        label: 'PL',
+                        data: [
+                            '8.83',
+                            '11.50',
+                            '10.84',
+                            '9.43',
+                            '5.71',
+                            '9.04',
+                            '11.46',
+                            '13.72',
+                            '13.07',
+                            '14.75',
+                            '13.36'
+                        ]
+                    },
+                    {
+                        label: 'MÉDIA',
+                        data: [
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06',
+                            '11.06'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false,
+                        text: 'BBDC3'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            }
+                        }]
+                    }
+                }
+            });
+        };
+    </script>
+</html>
