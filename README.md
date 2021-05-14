@@ -2,20 +2,14 @@
 Nebulae Project - An open source stock-market educational platform.
 
 - [Setup](#setup)
+- [Files](#files)
 
 
 ## Setup
 
-### MongoDB
+python3 stock_loader.py -c TAEE
 
-- Pull Mongo image using Docker:
+## Files
 
-```
-docker pull mongo
-```
-
-- Create the docker container with MongoDB image:
-
-```
-docker run --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=mongodbuser -e MONGO_INITDB_ROOT_PASSWORD=mongodbpwd mongo
-```
+CPNJ to Symbol: https://sistemaswebb3-listados.b3.com.br/isinProxy/IsinCall/GetFileDownload/NDQ4Mzk= (.zip file with EMISSOR.txt)
+Company Data: http://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv

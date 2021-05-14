@@ -15,6 +15,7 @@ exports.create = async (req, res) => {
         await stock.save()
         res.status(status('Created')).send(stock)
     } catch(e) {
+        console.log(e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -88,13 +89,14 @@ exports.update = async (req, res) => {
             symbol
         }, 
         req.body, {
-            new: true, runValidators: true
+            new: true, runValidators: true, context: 'query'
         })
         if(!stock) {
             return res.status(status('Not Found')).send(req.body)
         } 
         res.status(status('OK')).send(stock)
     } catch(e) {
+        console.log(e)
         return res.status(status('Internal Server Error')).send(e)
     }
 }
