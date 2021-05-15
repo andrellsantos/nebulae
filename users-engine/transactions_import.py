@@ -31,6 +31,10 @@ def _login(email, password):
     else:
         return None
 
+def _logout(token):
+    _url = USERS_API_URL + "logout"
+    res = requests.post(_url, headers={'Authorization': _token})
+
 def _send_transaction(token, data):
     _url = USERS_API_URL + "me/transactions"
     _token = 'Bearer ' + token
@@ -56,6 +60,7 @@ def _import():
                 }
                 _message = _send_transaction(_token, _transaction)
                 print(row, _message)
+        _logout(_token)
 
 if __name__ == "__main__":
     _import()
