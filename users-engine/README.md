@@ -6,6 +6,10 @@ Nebulae Project - An open source stock-market educational platform.
 
 ## Setup
 
+```
+python3 transactions_import.py -e "<USER_EMAIL>" -p "<USER_PASSWORD>"
+```
+
 ### MongoDB
 
 - Pull Mongo image using Docker:

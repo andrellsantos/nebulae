@@ -33,6 +33,7 @@ def _login(email, password):
 
 def _logout(token):
     _url = USERS_API_URL + "logout"
+    _token = 'Bearer ' + token
     res = requests.post(_url, headers={'Authorization': _token})
 
 def _send_transaction(token, data):
