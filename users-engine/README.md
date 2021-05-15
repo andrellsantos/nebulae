@@ -6,10 +6,6 @@ Nebulae Project - An open source stock-market educational platform.
 
 ## Setup
 
-```
-python3 stock_loader.py -c B3SA -f 2021 -q --all
-```
-
 ### MongoDB
 
 - Pull Mongo image using Docker:
