@@ -66,18 +66,15 @@ def _persist_quote(symbol, ticker, quote):
 
 def _load():
     _symbol, _financial_year, _quote_year = _checkArgs(sys.argv)
-
-    # 1 - Procura pelo simbolo no arquivo "emissor.csv" e armazena o CNPJ
-    # 2 - Tendo o CPNJ, procura no arquivo "cad_cia_aberta.csv" pelos dados da empresa
-    # 3 - Cria o JSON com os dados da empresa para salvar em um arquivo ou persistir no serviço de assets
+    
     if len(_symbol) > 0:
         _registry_number = symbol_loader.get_registry_number(_symbol)
         if _registry_number != None:
             _registry_number = _registry_number[0:2] + "." + _registry_number[2:5] + "." + _registry_number[5:8] + "/" + _registry_number[8:12] + "-" + _registry_number[12:14]
             
             # company_loader
-            # _company = company_loader.get(_registry_number, _symbol)
-            # _persist_stock(_symbol, _company)
+            _company = company_loader.get(_registry_number, _symbol)
+            _persist_stock(_symbol, _company)
 
             # financial_loader
             if isinstance(_financial_year, str) and _financial_year == "--all":
