@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NEBULAE</title>
+        <link rel="icon" href="/img/icon.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <div class="main-content">
+            {{>portfolio}}
+            <table border="0" width="100%">
+                <tr>
+                    <td width="25%" class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">MERCADO</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="1%"></td>
+                    <td width="72%" class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">COMPOSIÇÃO</td>
+                            </tr>
+                            <tr>
+                                <td width="70%" class="table-td-stock-bottom" align="center">
+                                    <table width="95%">
+                                        <tr>
+                                            <td width="40%" class="table-td-stock" align="center">CLASSE DE ATIVO</td>
+                                            <td width="30%" class="table-td-stock-left" align="center">VALOR</td>
+                                            <td width="15%" class="table-td-stock-left" align="center">ATUAL</td>
+                                            <td width="15%" class="table-td-stock-left" align="center">OBJETIVO</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom">AÇÕES</td>
+                                            <td class="table-td-stock-right" align="center">R$ 10.000,00</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom">FIIs</td>
+                                            <td class="table-td-stock-right" align="center">R$ 10.000,00</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom">STOCKS</td>
+                                            <td class="table-td-stock-right" align="center">R$ 10.000,00</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom">REITS</td>
+                                            <td class="table-td-stock-right" align="center">R$ 10.000,00</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                            <td class="table-td-stock-right" align="center">25,00%</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="table-td-stock-right" align="center">
+                                    <canvas id="portfolio" width="85%" height="85%"></canvas>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="3"><br/></td></tr>
+                <tr>
+                    <td colspan="3">
+                        <table border="0" width="100%">
+                            <tr>
+                                <td width="49%" class="table-td-stock-top">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="table-td-stock" align="center">RENTABILIDADE</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom" align="center"><canvas id="returnRate"></canvas></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="2%"></td>
+                                <td width="49%" class="table-td-stock-top">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="table-td-stock" align="center">DIVIDENDOS</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom" align="center"><canvas id="dividends"></canvas></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {{>footer}}
+    </body>
+
+
+    <script>
+        window.onload = function() {
+            var ctx = document.getElementById('portfolio').getContext('2d');
+            var portfolio = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        'AÇÕES',
+                        'FIIs',
+                        'STOCKs',
+                        'REITs'
+                    ],
+                    datasets: [{
+                        data: [
+                            '25.00',
+                            '25.00',
+                            '25.00',
+                            '25.00'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: false,
+                        tooltip: false
+                    },
+                    elements: {
+                        arc: {
+                            backgroundColor: ['#e91e63', '#00e676', '#ff5722', '#1e88e5']
+                        }
+                    }
+                }
+            });
+
+
+
+            var ctx = document.getElementById('returnRate').getContext('2d');
+            var returnRate = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        '2011',
+                        '2012',
+                        '2013',
+                        '2014',
+                        '2015',
+                        '2016',
+                        '2017',
+                        '2018',
+                        '2019',
+                        '2020'
+                    ],
+                    datasets: [{
+                        label: 'CARTEIRA',
+                        data: [
+                            '-5.83',
+                            '10.50',
+                            '-9.84',
+                            '3.43',
+                            '-4.71',
+                            '20.04',
+                            '27.46',
+                            '11.72',
+                            '23.07',
+                            '1.75'
+                        ]
+                    },
+                    {
+                        label: 'IBOVESPA',
+                        data: [
+                            '-18.83',
+                            '7.50',
+                            '-15.84',
+                            '-2.43',
+                            '-13.71',
+                            '38.04',
+                            '26.46',
+                            '15.72',
+                            '31.07',
+                            '2.75'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'PERCENTUAL'
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+            var ctx = document.getElementById('dividends').getContext('2d');
+            var dividends = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'JANEIRO',
+                        'FEVEREIRO',
+                        'MARÇO',
+                        'ABRIL',
+                        'MAIO',
+                        'JUNHO',
+                        'JULHO',
+                        'AGOSTO',
+                        'SETEMBRO',
+                        'OUTUBRO',
+                        'NOVEMBRO',
+                        'DEZEMBRO'
+                    ],
+                    datasets: [{
+                        label: 'TOTAL',
+                        data: [
+                            '10.00',
+                            '11.00',
+                            '13.00',
+                            '9.00',
+                            '5.00',
+                            '0.00',
+                            '0.00',
+                            '0.00',
+                            '0.00',
+                            '0.00',
+                            '0.00',
+                            '0.00'
+                        ]
+                    },
+                    {
+                        label: 'ACUMULADO',
+                        type: 'line',
+                        data: [
+                            '10.00',
+                            '21.00',
+                            '34.00',
+                            '43.00',
+                            '48.00',
+                            '48.00',
+                            '48.00',
+                            '48.00',
+                            '48.00',
+                            '48.00',
+                            '48.00',
+                            '48.00'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'VALOR'
+                            }
+                        }]
+                    }
+                }
+            });
+        };
+    </script>
+</html>

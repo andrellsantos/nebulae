@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NEBULAE</title>
+        <link rel="icon" href="/img/icon.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <div class="main-content">
+            {{>portfolio}}
+            <table border="0" width="100%">
+                <tr>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td class="table-td-stock" align="center">RENTABILIDADE</td>
+                            </tr>
+                            <tr>
+                                <td class="table-td-stock-bottom" align="center"><canvas id="returnRate" height="100px"></canvas></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td><br/></td></tr>
+                <tr>
+                    <td class="table-td-stock-top">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2" class="table-td-stock" align="center">HISTÓRICO</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td><br/></td></tr>
+                <tr>
+                    <td>
+                        <table border="0" width="100%">
+                            <tr>
+                                <td width="49%" class="table-td-stock-top">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="table-td-stock" align="center">RISCO X RETORNO</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom" align="center"><canvas id="riskReturn"></canvas></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="2%"></td>
+                                <td width="49%" class="table-td-stock-top">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="table-td-stock" align="center">PATRIMÔNIO</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-td-stock-bottom" align="center"><canvas id="portfolio"></canvas></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {{>footer}}
+    </body>
+
+
+    <script>
+        window.onload = function() {
+
+            var ctx = document.getElementById('returnRate').getContext('2d');
+            var returnRate = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        '2011',
+                        '2012',
+                        '2013',
+                        '2014',
+                        '2015',
+                        '2016',
+                        '2017',
+                        '2018',
+                        '2019',
+                        '2020'
+                    ],
+                    datasets: [{
+                        label: 'CARTEIRA',
+                        data: [
+                            '-5.83',
+                            '10.50',
+                            '-9.84',
+                            '3.43',
+                            '-4.71',
+                            '20.04',
+                            '27.46',
+                            '11.72',
+                            '23.07',
+                            '1.75'
+                        ]
+                    },
+                    {
+                        label: 'IBOVESPA',
+                        data: [
+                            '-18.83',
+                            '7.50',
+                            '-15.84',
+                            '-2.43',
+                            '-13.71',
+                            '38.04',
+                            '26.46',
+                            '15.72',
+                            '31.07',
+                            '2.75'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'PERCENTUAL'
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+            var ctx = document.getElementById('portfolio').getContext('2d');
+            var portfolio = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        '2011',
+                        '2012',
+                        '2013',
+                        '2014',
+                        '2015',
+                        '2016',
+                        '2017',
+                        '2018',
+                        '2019',
+                        '2020'
+                    ],
+                    datasets: [{
+                        label: 'CARTEIRA',
+                        data: [
+                            '8000.00',
+                            '10000.00',
+                            '12000.00',
+                            '18000.00',
+                            '20000.00',
+                            '23000.00',
+                            '28000.00',
+                            '33000.00',
+                            '38000.00',
+                            '42000.00',
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    legend: { 
+                        display: false 
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'DATA'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'VALOR'
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            var ctx = document.getElementById('riskReturn').getContext('2d');
+            var returnRate = new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                labels: "Africa",
+                datasets: [
+                    {
+                    label: ["IRB3"],
+                    backgroundColor: "rgba(255,221,50,0.2)",
+                    borderColor: "rgba(255,221,50,1)",
+                    data: [{
+                        x: 13.7,
+                        y: 5.245,
+                        r: 15
+                    }]
+                    }, {
+                    label: ["B3SA3"],
+                    backgroundColor: "rgba(60,186,159,0.2)",
+                    borderColor: "rgba(60,186,159,1)",
+                    data: [{
+                        x: 25.9,
+                        y: 7.526,
+                        r: 10
+                    }]
+                    }, {
+                    label: ["WEG3"],
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    borderColor: "#000",
+                    data: [{
+                        x: 39.1,
+                        y: 6.994,
+                        r: 15
+                    }]
+                    }, {
+                    label: ["BBDC3"],
+                    backgroundColor: "rgba(193,46,12,0.2)",
+                    borderColor: "rgba(193,46,12,1)",
+                    data: [{
+                        x: 43.73,
+                        y: 5.921,
+                        r: 15
+                    }]
+                    }
+                ]
+                },
+                options: {
+                title: {
+                    display: false
+                }, scales: {
+                    yAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "RISCO"
+                    }
+                    }],
+                    xAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "RETORNO"
+                    }
+                    }]
+                }
+                }
+            });
+        };
+    </script>
+</html>
