@@ -1,41 +1,44 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
+const uniqueValidator = require('mongoose-unique-validator')
+const stockSchema = require('./schemas/stock')
 
-const Stock = mongoose.model('Stock', {
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    cnpj: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    codeCVM: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    ticker: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    sector: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    description: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    active: {
-        type: Boolean,
-        default: false
-    }
+// Virtual Properties
+stockSchema.virtual('tickers', {
+    ref: 'Ticker',
+    localField: 'symbol',
+    foreignField: 'stock'
 })
+
+stockSchema.virtual('financials', {
+    ref: 'Financial',
+    localField: 'symbol',
+    foreignField: 'stock'
+})
+
+// Unique Fields
+stockSchema.index({
+    country: 1,
+    symbol: 1 
+}, {
+    unique: true
+})
+
+stockSchema.plugin(uniqueValidator, {
+    message: 'Symbol already exists for country.'
+})
+
+// Suppressing unnecessary field
+const fieldOptions = {
+    virtuals: true, 
+    versionKey: false,
+    transform: function(doc, ret) {
+        delete ret._id
+        delete ret.id
+    } 
+}
+stockSchema.set('toObject', fieldOptions)
+stockSchema.set('toJSON', fieldOptions)
+
+const Stock = mongoose.model('Stock', stockSchema)
 
 module.exports = Stock

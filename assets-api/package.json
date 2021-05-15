@@ -24,9 +24,13 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "immutable": "^4.0.0-rc.12",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.16",
+    "mongoose-unique-validator": "^2.0.3",
     "statuses": "^2.0.1",
-    "validator": "^13.5.2"
+    "swagger-ui-express": "^4.1.6",
+    "validator": "^13.5.2",
+    "yamljs": "^0.3.0"
   }
 }
