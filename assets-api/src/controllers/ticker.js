@@ -49,7 +49,11 @@ exports.getByTicker = async (req, res) => {
                 ticker: symbol
             }, {_id: false, __v: false})
         }
-        res.status(status('OK')).send(ticker)
+        if(!ticker) {
+            res.status(status('Not Found')).send(req.body)
+        } else {
+            res.status(status('OK')).send(ticker)
+        }
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }

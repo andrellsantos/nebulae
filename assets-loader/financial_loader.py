@@ -101,8 +101,8 @@ def _get_quarter(date):
     return _quarter
 
 def _get_report(registry_number, year, header, codes, file_name, order):
-    _encoding = "latin-1"
     _result = {}
+    _encoding = "latin-1"
     with open(file_name, newline = "", encoding = _encoding) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter = ";")
         _report = {}
@@ -160,12 +160,12 @@ def get(registry_number, year):
         if _date != None:
             _quarter = _get_quarter(_date)
             _financial = {
-                "date" : _date,
-                "quarter" : _quarter,
-                "assets" : _return_value(_date, _assets),
+                "date"        : _date,
+                "quarter"     : _quarter,
+                "assets"      : _return_value(_date, _assets),
                 "liabilities" : _return_value(_date, _liabilities),
-                "income" : _return_value(_date, _income),
-                "flow_cash" : _return_value(_date, _flow_cash)
+                "income"      : _return_value(_date, _income),
+                "flow_cash"   : _return_value(_date, _flow_cash)
             }
             _financials[_quarter] = _financial
 

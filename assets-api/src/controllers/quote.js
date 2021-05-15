@@ -41,7 +41,11 @@ exports.getByDate = async (req, res) => {
             ticker,
             date
         })
-        res.status(status('OK')).send(quote)
+        if(!quote) {
+            res.status(status('Not Found')).send(req.body)
+        } else {
+            res.status(status('OK')).send(quote)
+        }
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
