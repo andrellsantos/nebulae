@@ -12,6 +12,7 @@ exports.create = async (req, res) => {
         await financial.save()
         res.status(status('Created')).send(financial)
     } catch(e) {
+        console.log(e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -21,7 +22,7 @@ exports.getAll = async (req, res) => {
     try {
         const financials = await Financial.find({
             stock
-        })
+        }).sort({date:1})
         res.status(status('OK')).send(financials)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
@@ -36,7 +37,11 @@ exports.getByQuarter = async (req, res) => {
             stock,
             quarter
         })
-        res.status(status('OK')).send(financial)
+        if(!financial) {
+            res.status(status('Not Found')).send(req.body)
+        } else {
+            res.status(status('OK')).send(financial)
+        }
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
@@ -59,7 +64,7 @@ exports.update = async (req, res) => {
             stock, quarter
         }, 
         req.body, {
-            new: true, runValidators: true
+            new: true, runValidators: true, context: 'query'
         })
         if(!financial) {
             res.status(status('Not Found')).send(req.body)
@@ -67,6 +72,7 @@ exports.update = async (req, res) => {
             res.status(status('OK')).send(financial)
         }
     } catch(e) {
+        console.log(e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }

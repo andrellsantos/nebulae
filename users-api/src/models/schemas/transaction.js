@@ -21,6 +21,12 @@ const transactionSchema = new Schema({
         uppercase: true,
         trim: true
     },
+    type: {
+        type: String,
+        required: true,
+        uppercase: true,
+        trim: true
+    },
     date: {
         type: Date,
         required: true

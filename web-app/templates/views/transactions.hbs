@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NEBULAE</title>
+        <link rel="icon" href="/img/icon.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <div class="main-content">
+            {{>portfolio}}
+            <table border="0" width="100%">
+                <tr>
+                    <td colspan="8" class="table-td-stock" align="center">TRANSAÇÕES</td>
+                </tr>
+                <tr>
+                    <td class="table-td-stock-bottom" align="center">Ativo</td>
+                    <td class="table-td-stock-right" align="center">Tipo</td>
+                    <td class="table-td-stock-right" align="center">País</td>
+                    <td class="table-td-stock-right" align="center">Data</td>
+                    <td class="table-td-stock-right" align="center">Operação</td>
+                    <td class="table-td-stock-right" align="center">Preço</td>
+                    <td class="table-td-stock-right" align="center">Qtd</td>
+                    <td class="table-td-stock-right" align="center">Total</td>
+                </tr>
+                {{#each transactions}}
+                    <tr>
+                        <td class="table-td-stock-bottom" align="center">{{this.ticker}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.type}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.country}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.date}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.operation}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.price}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.amount}}</td>
+                        <td class="table-td-stock-right" align="center">{{this.total}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+        {{>footer}}
+    </body>
+</html>

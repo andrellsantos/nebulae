@@ -21,6 +21,8 @@ exports.calculate = async (user) => {
             portfolio = {
                 country: transaction.country,
                 ticker: transaction.ticker,
+                weight: 10,
+                type: transaction.type,
                 amount: transaction.amount,
                 total: Math.abs(transaction.amount) * transaction.price,
                 average: transaction.price
@@ -55,7 +57,9 @@ exports.calculate = async (user) => {
                 }, {
                     userId: user._id,
                     country: portfolio.country,
+                    weight: portfolio.weight,
                     ticker: portfolio.ticker,
+                    type: portfolio.type,
                     amount: portfolio.amount,
                     average: portfolio.average
                 }, {

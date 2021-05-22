@@ -134,6 +134,12 @@ h1 {
     padding: 8px;
 }
 
+.table-td-stock-out {
+    border-right: 1px solid #888888;
+    border-left: 1px solid #888888;
+    padding: 8px;
+}
+
 .table-td-stock-top {
     vertical-align: top;
 }
