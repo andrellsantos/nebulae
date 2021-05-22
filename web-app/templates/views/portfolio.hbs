@@ -14,16 +14,61 @@
                     <td width="72%" class="table-td-stock-top">
                         <table width="100%">
                             <tr>
-                                <td class="table-td-stock" align="center">AÇÕES</td>
+                                <td class="table-td-stock" align="center">AÇÕES BRASILEIRAS</td>
                             </tr>
+                            {{#if stocks.BR}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center">Ativo</td>
+                                                <td class="table-td-stock-left" align="center">Peso</td>
+                                                <td class="table-td-stock-left" align="center">Cotação</td>
+                                                <td class="table-td-stock-left" align="center">&Delta;</td>
+                                                <td class="table-td-stock-left" align="center">PM</td>
+                                                <td class="table-td-stock-left" align="center">Qtd</td>
+                                                <td class="table-td-stock-left" align="center">Atual</td>
+                                                <td class="table-td-stock-left" align="center">Objetivo</td>
+                                            </tr>
+                                            {{#each stocks.BR}}
+                                                <tr>
+                                                    <td class="table-td-stock-bottom" align="center">{{this.ticker}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.weight}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.quote}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.delta}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.average}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.amount}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.currentPercentile}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.goalPercentile}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                     <td width="1%"></td>
                     <td width="25%" class="table-td-stock-top">
                         <table width="100%">
                             <tr>
-                                <td colspan="2" class="table-td-stock" align="center">COMPOSIÇÃO</td>
+                                <td class="table-td-stock" align="center">COMPOSIÇÃO</td>
                             </tr>
+                            {{#if stocks.BR}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center"><canvas id="stocksBR" width="100px" height="324px"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                 </tr>
@@ -34,6 +79,38 @@
                             <tr>
                                 <td class="table-td-stock" align="center">FUNDOS IMOBILIÁRIOS (FIIs)</td>
                             </tr>
+                            {{#if reits.BR}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center">Ativo</td>
+                                                <td class="table-td-stock-left" align="center">Peso</td>
+                                                <td class="table-td-stock-left" align="center">Cotação</td>
+                                                <td class="table-td-stock-left" align="center">&Delta;</td>
+                                                <td class="table-td-stock-left" align="center">PM</td>
+                                                <td class="table-td-stock-left" align="center">Qtd</td>
+                                                <td class="table-td-stock-left" align="center">Atual</td>
+                                                <td class="table-td-stock-left" align="center">Objetivo</td>
+                                            </tr>
+                                            {{#each reits.BR}}
+                                                <tr>
+                                                    <td class="table-td-stock-bottom" align="center">{{this.ticker}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.weight}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.quote}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.delta}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.average}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.amount}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.currentPercentile}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.goalPercentile}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                     <td width="1%"></td>
@@ -42,6 +119,19 @@
                             <tr>
                                 <td colspan="2" class="table-td-stock" align="center">COMPOSIÇÃO</td>
                             </tr>
+                            {{#if reits.BR}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center"><canvas id="reitsBR" width="100px" height="219px"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                 </tr>
@@ -52,6 +142,38 @@
                             <tr>
                                 <td class="table-td-stock" align="center">AÇÕES INTERNACIONAIS (STOCKs)</td>
                             </tr>
+                            {{#if reits.US}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center">Ativo</td>
+                                                <td class="table-td-stock-left" align="center">Peso</td>
+                                                <td class="table-td-stock-left" align="center">Cotação</td>
+                                                <td class="table-td-stock-left" align="center">&Delta;</td>
+                                                <td class="table-td-stock-left" align="center">PM</td>
+                                                <td class="table-td-stock-left" align="center">Qtd</td>
+                                                <td class="table-td-stock-left" align="center">Atual</td>
+                                                <td class="table-td-stock-left" align="center">Objetivo</td>
+                                            </tr>
+                                            {{#each reits.US}}
+                                                <tr>
+                                                    <td class="table-td-stock-bottom" align="center">{{this.ticker}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.weight}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.quote}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.delta}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.average}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.amount}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.currentPercentile}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.goalPercentile}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                     <td width="1%"></td>
@@ -70,6 +192,38 @@
                             <tr>
                                 <td class="table-td-stock" align="center">REAL ESTATE INVESTMENT TRUST (REITs)</td>
                             </tr>
+                            {{#if reits.US}}
+                                <tr><td class="table-td-stock-out"></td></tr>
+                                <tr>
+                                    <td class="table-td-stock-out" align="center">
+                                        <table border="0" width="95%">
+                                            <tr>
+                                                <td class="table-td-stock" align="center">Ativo</td>
+                                                <td class="table-td-stock-left" align="center">Peso</td>
+                                                <td class="table-td-stock-left" align="center">Cotação</td>
+                                                <td class="table-td-stock-left" align="center">&Delta;</td>
+                                                <td class="table-td-stock-left" align="center">PM</td>
+                                                <td class="table-td-stock-left" align="center">Qtd</td>
+                                                <td class="table-td-stock-left" align="center">Atual</td>
+                                                <td class="table-td-stock-left" align="center">Objetivo</td>
+                                            </tr>
+                                            {{#each reits.US}}
+                                                <tr>
+                                                    <td class="table-td-stock-bottom" align="center">{{this.ticker}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.weight}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.quote}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.delta}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.average}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.amount}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.currentPercentile}}</td>
+                                                    <td class="table-td-stock-right" align="center">{{this.goalPercentile}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr><td class="table-td-stock-bottom"></td></tr>
+                        {{/if}}
                         </table>
                     </td>
                     <td width="1%"></td>
@@ -85,4 +239,69 @@
         </div>
         {{>footer}}
     </body>
+
+    <script>
+        window.onload = function() {
+            var ctx = document.getElementById('stocksBR').getContext('2d');
+            var stockBR = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {{{json dataStocksBR}}},
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: false,
+                        legend: false,
+                        tooltip: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'TOTAL'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'TICKER'
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            var ctx = document.getElementById('reitsBR').getContext('2d');
+            var stockBR = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {{{json dataReitsBR}}},
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: false,
+                        legend: false,
+                        tooltip: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'TOTAL'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'TICKER'
+                            }
+                        }]
+                    }
+                }
+            });
+        };
+    </script>
 </html>

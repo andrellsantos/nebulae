@@ -1,19 +1,22 @@
 const Transaction = require('../models/transaction')
-const engine = require('../engines/portfolio')
+const dateFormat = require('dateformat')
+const moment = require('moment')
 const status = require('statuses')
 
 
 exports.create = async (req, res) => {
+    const date = moment(req.body.date, "DD/MM/YYYY").toDate()
     const transaction = new Transaction({
         ...req.body,
+        date: dateFormat(date, 'yyyy-mm-dd'),
         userId: req.user._id
     })
 
     try {
         await transaction.save()
-        engine.calculate(req.user)
         res.status(status('Created')).send(transaction)
     } catch(e) {
+        console.log(e)
         res.status(status('Bad Request')).send(e)
     }
 }
@@ -21,7 +24,14 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
     try {
         await req.user.populate({
-            path: 'transactions'
+            path: 'transactions',
+            options: {
+                sort: {
+                    date: 1,
+                    type: -1,
+                    ticker: 1
+                } 
+            }
         }).execPopulate()
         res.status(status('OK')).send(req.user.transactions)
     } catch(e) {
@@ -67,7 +77,6 @@ exports.update = async (req, res) => {
 
         fieldsRequestBody.forEach((field) => transaction[field] = req.body[field])
         await transaction.save()
-        engine.calculate(req.user)
         res.status(status('OK')).send(transaction)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e)
@@ -83,7 +92,6 @@ exports.delete = async (req, res) => {
         if(!transaction) {
             return res.status(status('Not Found')).send()
         }
-        engine.calculate(req.user)
         res.status(status('OK')).send(transaction)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e)

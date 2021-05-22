@@ -24,8 +24,9 @@ exports.getAll = async (req, res) => {
     const ticker = req.params.ticker.toUpperCase()
     try {
         const quotes = await Quote.find({
-            ticker
-        })
+            ticker,
+            date: {"$gte": new Date(2021, 1, 1)}
+        }).sort({date:1})
         res.status(status('OK')).send(quotes)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 

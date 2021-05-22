@@ -55,9 +55,10 @@ def _import():
                 _transaction = {
                     "country" : "BR",
                     "ticker"  : row[0],
-                    "date"    : row[1],
-                    "price"   : row[2],
-                    "amount"  : row[3]
+                    "type"    : row[1],
+                    "date"    : row[2],
+                    "price"   : row[3],
+                    "amount"  : row[4]
                 }
                 _message = _send_transaction(_token, _transaction)
                 print(row, _message)

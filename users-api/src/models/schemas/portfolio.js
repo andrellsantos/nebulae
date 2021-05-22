@@ -14,8 +14,14 @@ const portfolioSchema = new Schema({
         required: true,
         uppercase: true,
         trim: true
-    },   
+    },
     ticker: {
+        type: String,
+        required: true,
+        uppercase: true,
+        trim: true
+    },
+    type: {
         type: String,
         required: true,
         uppercase: true,

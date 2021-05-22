@@ -62,7 +62,7 @@ exports.getBySymbol = async (req, res) => {
         //await stock.populate('financials').execPopulate()
         const financials = await Financial.find({
             stock: symbol
-        }, {_id: false, __v: false, date: false})
+        }, {_id: false, __v: false, date: false}).sort({date:1})
         stock.financials = financials
         
         res.status(status('OK')).send(stock)

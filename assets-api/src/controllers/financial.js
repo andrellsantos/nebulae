@@ -22,7 +22,7 @@ exports.getAll = async (req, res) => {
     try {
         const financials = await Financial.find({
             stock
-        })
+        }).sort({date:1})
         res.status(status('OK')).send(financials)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 

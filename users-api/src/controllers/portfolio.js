@@ -1,17 +1,22 @@
 const Portfolio = require('../models/portfolio')
+const engine = require('../engines/portfolio')
 const status = require('statuses')
 
 exports.getAll = async (req, res) => {
     try {
+        await engine.calculate(req.user)
         await req.user.populate({
-            path: 'portfolios'
+            path: 'portfolios',
+            options: {
+                sort: {ticker: 1} 
+            }
         }).execPopulate()
         res.status(status('OK')).send(req.user.portfolios)
     } catch(e) {
         res.status(status('Internal Server Error')).send(e) 
     }
 }
-
+// Endpoint to update the asset weight
 exports.update = async (req, res) => {
     const fieldsRequestBody = Object.keys(req.body)
     const allowedFieldsRequestBody = ['weight']
