@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.9"
+# command to install dependencies
+# install: "pip install -r requirements.txt"
+# command to run tests
+# script: nosetests
+script:
+  - python assets-loader/tests/company_loader.py 
+  - python assets-loader/tests/financial_loader.py 
+  - python assets-loader/tests/quote_loader.py 
+  - python users-engine/tests/transactions_import.py 

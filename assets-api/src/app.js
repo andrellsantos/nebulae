@@ -1,4 +1,5 @@
 const express = require('express')
+const logger = require('./logs/winston')
 require('./db/mongoose')
 
 const path = require('path')
@@ -13,7 +14,7 @@ const financial = require('./routers/financial')
 
 const app = express()
 const port = process.env.PORT || 3002
-
+  
 app.use(express.json())
 
 // APIs
@@ -23,6 +24,6 @@ app.use('/api/assets/:country/stocks/:symbol/tickers', ticker)
 app.use('/api/assets/:country/stocks/:symbol/tickers/:ticker/quotes', quote)
 app.use('/api/assets/:country/stocks/:symbol/financials', financial)
 
-app.listen(port, () => {
-    console.log('Server is up on port ' + port)
+app.listen(port, async () => {
+    logger.info('[app.js] Server is up on port ' + port)
 })

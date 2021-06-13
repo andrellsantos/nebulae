@@ -1,4 +1,5 @@
 const Financial = require('../models/financial')
+const logger = require('../logs/winston')
 const status = require('statuses')
 // TODO: Validate router based on the country
 // TODO: Check if the stock is active
@@ -12,7 +13,7 @@ exports.create = async (req, res) => {
         await financial.save()
         res.status(status('Created')).send(financial)
     } catch(e) {
-        console.log(e)
+        logger.error('[controllers/financial.js] exports.create()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -25,6 +26,7 @@ exports.getAll = async (req, res) => {
         }).sort({date:1})
         res.status(status('OK')).send(financials)
     } catch(e) {
+        logger.error('[controllers/financial.js] exports.getAll()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -43,6 +45,7 @@ exports.getByQuarter = async (req, res) => {
             res.status(status('OK')).send(financial)
         }
     } catch(e) {
+        logger.error('[controllers/financial.js] exports.getByQuarter()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -72,7 +75,7 @@ exports.update = async (req, res) => {
             res.status(status('OK')).send(financial)
         }
     } catch(e) {
-        console.log(e)
+        logger.error('[controllers/financial.js] exports.update()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }

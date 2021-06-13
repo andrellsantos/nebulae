@@ -1,5 +1,6 @@
 const Ticker = require('../models/ticker')
 const Quote = require('../models/quote')
+const logger = require('../logs/winston')
 const status = require('statuses')
 // TODO: Validate router based on the country
 // TODO: Check if the stock is active
@@ -17,6 +18,7 @@ exports.create = async (req, res) => {
         await ticker.save()
         res.status(status('Created')).send(ticker)
     } catch(e) {
+        logger.error('[controllers/ticker.js] exports.create()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -30,6 +32,7 @@ exports.getAll = async (req, res) => {
         })
         res.status(status('OK')).send(tickers)
     } catch(e) {
+        logger.error('[controllers/ticker.js] exports.getAll()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -55,6 +58,7 @@ exports.getByTicker = async (req, res) => {
             res.status(status('OK')).send(ticker)
         }
     } catch(e) {
+        logger.error('[controllers/ticker.js] exports.getByTicker()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }

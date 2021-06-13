@@ -1,4 +1,5 @@
 const Quote = require('../models/quote')
+const logger = require('../logs/winston')
 const status = require('statuses')
 // TODO: Validate router based on the country
 // TODO: Check if the stock is active
@@ -16,6 +17,7 @@ exports.create = async (req, res) => {
         await quote.save()
         res.status(status('Created')).send(quote)
     } catch(e) {
+        logger.error('[controllers/quote.js] exports.create()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -29,6 +31,7 @@ exports.getAll = async (req, res) => {
         }).sort({date:1})
         res.status(status('OK')).send(quotes)
     } catch(e) {
+        logger.error('[controllers/quote.js] exports.getAll()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -48,6 +51,7 @@ exports.getByDate = async (req, res) => {
             res.status(status('OK')).send(quote)
         }
     } catch(e) {
+        logger.error('[controllers/quote.js] exports.getByDate()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -76,6 +80,7 @@ exports.update = async (req, res) => {
             res.status(status('OK')).send(quote)
         }
     } catch(e) {
+        logger.error('[controllers/quote.js] exports.update()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
