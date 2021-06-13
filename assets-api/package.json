@@ -23,6 +23,7 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "@elastic/ecs-winston-format": "^1.1.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "immutable": "^4.0.0-rc.12",
@@ -33,6 +34,8 @@
     "statuses": "^2.0.1",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.5.2",
+    "winston": "^3.3.3",
+    "winston-elasticsearch": "^0.15.6",
     "yamljs": "^0.3.0"
   }
 }

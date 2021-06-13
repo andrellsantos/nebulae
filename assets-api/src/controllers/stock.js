@@ -2,6 +2,7 @@ const Stock = require('../models/stock')
 const Ticker = require('../models/ticker')
 const Quote = require('../models/quote')
 const Financial = require('../models/financial')
+const logger = require('../logs/winston')
 const status = require('statuses')
 // TODO: Validate router based on the country
 
@@ -15,7 +16,7 @@ exports.create = async (req, res) => {
         await stock.save()
         res.status(status('Created')).send(stock)
     } catch(e) {
-        console.log(e)
+        logger.error('[controllers/stock.js] exports.create()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -29,6 +30,7 @@ exports.getAll = async (req, res) => {
         })
         res.status(status('OK')).send(stocks)
     } catch(e) {
+        logger.error('[controllers/stock.js] exports.getAll()', e)
         res.status(status('Internal Server Error')).send(e) 
     }
 }
@@ -67,6 +69,7 @@ exports.getBySymbol = async (req, res) => {
         
         res.status(status('OK')).send(stock)
     } catch(e) {
+        logger.error('[controllers/stock.js] exports.getBySymbol()', e)
         res.status(status('Internal Server Error')).send(e)
     }
 }
@@ -96,7 +99,7 @@ exports.update = async (req, res) => {
         } 
         res.status(status('OK')).send(stock)
     } catch(e) {
-        console.log(e)
+        logger.error('[controllers/stock.js] exports.update()', e)
         return res.status(status('Internal Server Error')).send(e)
     }
 }
